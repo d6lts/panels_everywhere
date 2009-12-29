@@ -12,9 +12,9 @@ not really designed for this kind of behavior.
 Getting Started
 ===============
 
-Be sure that you have a version of CTools newer than 12-28-2009 -- this
-is either the current -dev or Panels 1.3 if it is out. At the time of this
-writing, Panels 1.3 has not yet been released, so you will need to use
+Be sure that you have a version of Chaos Tools Suite newer than 12-28-2009 -- 
+this is either the current -dev or CTools 1.3 if it is out. At the time of 
+this writing, CTools 1.3 has not yet been released, so you will need to use
 a -dev version (or from CVS).
 
 Step 1
