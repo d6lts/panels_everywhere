@@ -1,0 +1,4 @@
+Changelog for Panels Everywhere
+
+Panels Everywhere 1.x-dev
+  o Initial commit to CVS

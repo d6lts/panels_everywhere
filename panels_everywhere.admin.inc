@@ -1,0 +1,48 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Contains administrative pages for the Panels Everywhere module.
+ */
+
+function panels_everywhere_settings_page() {
+  $form = array();
+
+  ctools_include('dependent');
+  $form['panels_everywhere_site_template_enabled'] = array(
+    '#title' => t('Enable Panels Everywhere site template'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('panels_everywhere_site_template_enabled', FALSE),
+    '#description' => t('This will enable a page in the page manager pages list that allows you to "wrap" any page in a panels display. You may use variants on that page to check site data such as the URL and apply wrappers selectively.'),
+  );
+/* @todo
+  $form['panels_everywhere_override_blocks'] = array(
+    '#title' => t('Override the blocks administration page'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('panels_everywhere_override_blocks', FALSE),
+    '#description' => t('If checked, the standard Drupal block administration page will be replaced with the site template page manager page.'),
+    '#process' => array('ctools_dependent_process'),
+    '#dependency' => array('edit-panels-everywhere-site-template-enabled' => array(1)),
+  );
+*/
+  $form['panels_everywhere_override_page_tpl'] = array(
+    '#title' => t('Override the page template'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('panels_everywhere_override_page_tpl', FALSE),
+    '#description' => t('If checked, the page.tpl.php file and preprocess functions in your theme will not be used. Instead the simplified page.tpl.php provided by Panels Everywhere will be used. This is recommended once you have your site templates set up, unless you actually need to have more control over the final page template.'),
+    '#process' => array('ctools_dependent_process'),
+    '#dependency' => array('edit-panels-everywhere-site-template-enabled' => array(1)),
+  );
+
+  $form['#submit'][] = 'panels_everywhere_settings_page_submit';
+  return system_settings_form($form);
+}
+
+function panels_everywhere_settings_page_submit(&$form, &$form_state) {
+  if (empty($form_state['values']['panels_everywhere_site_template_enabled'])) {
+    // Automatically unset dependencies.
+    $form_state['values']['panels_everywhere_override_blocks'] = FALSE;
+    $form_state['values']['panels_everywhere_override_page_tpl'] = FALSE;
+  }
+}
