@@ -103,6 +103,9 @@ function panels_everywhere_page_preprocess(&$vars) {
   if (strncmp($_GET['q'], 'admin/build/pages/edit', 21) == 0) {
     return;
   }
+  if (strncmp($_GET['q'], 'admin/build/pages/nojs', 21) == 0) {
+    return;
+  }
 
   $task = page_manager_get_task('site_template');
 
