@@ -74,12 +74,13 @@ You might also consider creating a completely blank theme, because existing
 themes will have CSS that expects different markup. To create a blank theme:
 
 1) mkdir sites/all/themes/blank
-2) Create the following four lines in a file named blank.info:
+2) Create the following five lines in a file named blank.info:
 
 name = Blank
 description = Blank
 core = 6.x
 stylesheets[all][] = blank.css
+engine = phptemplate
 
 3) Visit Administer >> Site building >> Themes and change your theme to the
    blank theme.

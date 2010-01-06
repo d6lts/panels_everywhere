@@ -2,3 +2,4 @@ Changelog for Panels Everywhere
 
 Panels Everywhere 1.x-dev
   o Initial commit to CVS
+  o #674222: README.txt missed "engine = phptemplate" line for the blank.info -- this is needed so the blank theme can have templates.
