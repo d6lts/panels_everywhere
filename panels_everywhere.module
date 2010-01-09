@@ -120,8 +120,15 @@ function panels_everywhere_page_preprocess(&$vars) {
   $page = page_manager_get_current_page();
   $contexts = ctools_context_handler_get_task_contexts($task, '', array($_GET['q'], $content, $page));
 
-  $output = ctools_context_handler_render($task, '', $contexts, array($_GET['q'], $content, $page));
-  if ($output !== FALSE) {
-    $vars['content'] = $output;
+  // Since we're inside theme('page') we must call ctools_context_handler_render as though
+  // we don't own the page, because crazy as it sounds, we don't.
+  $info = ctools_context_handler_render($task, '', $contexts, array($_GET['q'], $content, $page), FALSE);
+  if ($info && !empty($info['content'])) {
+    // Because we run so early, we have to use drupal_set_title() and not
+    // just set $vars['title']. Otherwise it will get overwritten.
+    if (isset($info['title'])) {
+      drupal_set_title($info['title']);
+    }
+    $vars['content'] = $info['content'];
   }
 }
