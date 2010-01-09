@@ -130,5 +130,8 @@ function panels_everywhere_page_preprocess(&$vars) {
       drupal_set_title($info['title']);
     }
     $vars['content'] = $info['content'];
+    if (!empty($info['no_blocks'])) {
+      $vars['show_blocks'] = FALSE;
+    }
   }
 }
