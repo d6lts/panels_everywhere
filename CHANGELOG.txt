@@ -8,3 +8,4 @@ Panels Everywhere 1.x-dev
   o Add some descriptive info text to the content types we offer to help introduce people to what will be IN the content and how they can theme them.
   o Update the README to include instructions on setting the page title to set from the page content pane.
   o Breadcrumb did not display properly in pane navigation due to error in theme.inc
+  o #679252: Create a sample variant and include it with Panels Everywhere, with an easy setting to make it go away after it is no longer needed.

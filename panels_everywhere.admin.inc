@@ -26,11 +26,21 @@ function panels_everywhere_settings_page() {
     '#dependency' => array('edit-panels-everywhere-site-template-enabled' => array(1)),
   );
 */
+
   $form['panels_everywhere_override_page_tpl'] = array(
     '#title' => t('Override the page template'),
     '#type' => 'checkbox',
     '#default_value' => variable_get('panels_everywhere_override_page_tpl', FALSE),
     '#description' => t('If checked, the page.tpl.php file and preprocess functions in your theme will not be used. Instead the simplified page.tpl.php provided by Panels Everywhere will be used. This is recommended once you have your site templates set up, unless you actually need to have more control over the final page template.'),
+    '#process' => array('ctools_dependent_process'),
+    '#dependency' => array('edit-panels-everywhere-site-template-enabled' => array(1)),
+  );
+
+  $form['panels_everywhere_provide_sample'] = array(
+    '#title' => t('Provide a sample variant for the site template'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('panels_everywhere_provide_sample', FALSE),
+    '#description' => t('If checked, the site template in the page administration will come with a sample variant pre-created with the minimal options, to help get you started faster. It is recommended you use this on a new installation, and once you are comfortable with Panels Everywhere, you can turn this off again to get it out of the way.'),
     '#process' => array('ctools_dependent_process'),
     '#dependency' => array('edit-panels-everywhere-site-template-enabled' => array(1)),
   );

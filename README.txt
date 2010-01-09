@@ -31,44 +31,40 @@ Step 2
 ------
 Navigate to Administer >> Site building >> Panels >> Settings >> Everywhere.
 
-Check the box to enable the site template. Do not, at this time, check the box
-to enable taking over the page.tpl.php. You'll want to have a basic layout that
-will properly take over page.tpl.php duties before you enable this.
+Check the box to enable the site template. 
+
+Check the box to enable the sample variant.
+
+You may check the box to override the page template, but only if you either
+enable the sample variant, or have already created a site template variant
+to handle page duties.
 
 Step 3
 ------
 Navigate to Administer >> Site Building >> Pages and edit the site_template
 (Default site template) page.
 
-Add a new variant. Choose a layout. Add items that you like to the layout. Most
-of the items you will want to add to this are in the Page Elements section.
+Edit your new variant. Customize it if you like. There are some very
+important parts of this sample variant:
+
+  o The "Page content" pane is absolutely critical. That is the pane that
+    will hold the actual content of the page you are looking at. If this
+    pane does not exist, *no content will be rendered*, only the page
+    template. Think of this as being the $content variable in your
+    page.tpl.php -- you need that and cannot live without it.
+
+  o The "Title type" is set to "From pane" and the Page content pane is
+    selected as the title. (That is why that pane has a thicker border).
+    This is how the title of the content gets to be the title of the
+    page.
+
+  o The Navigation, Header and Messages panes are conveniences that
+    group common page navigation together. For customized sites it is
+    highly likely that you will theme these or do away with them and
+    use the individual pieces.
+
 
 Step 4
-------
-***It is critical that the Page Content pane is in this layout***. This 
-pane represents the content that will be displayed. If it is not there,
-the actual page you are viewing will not show up. If you end up looking
-at this layout when trying to manage Panels, you could have a problem, and
-you will have to manually disable the site template in your database.
-
-Step 5
-------
-Add other page elements including as the Page Header, Page Navigation or Page 
-Messages panes. If you have all three of these you should have most of the
-items you would expect on a normal Drupal page layout.
-
-Step 6
-------
-Preview your page. Make sure the dummy content appears. If you're satisfied,
-go ahead and save. Once you save, your new layout should be functional for
-all pages.
-
-Step 7
-------
-Go back to Administer >> Site Building >> Panels >> Settings >> Everywhere 
-and enable page.tpl.php override. 
-
-Step 8
 ------
 You might also consider creating a completely blank theme, because existing 
 themes will have CSS that expects different markup. To create a blank theme:
@@ -84,6 +80,22 @@ engine = phptemplate
 
 3) Visit Administer >> Site building >> Themes and change your theme to the
    blank theme.
+
+Step 5
+------
+
+You can add additional variants and easily section off your site by using
+the selection rules. In particular, there are two selection rules you should
+be interested in:
+
+o You can easily add a String: comparison selection rule and write regular
+  expressions against the URL to use that.
+
+o You can use the Context exists selection rule using the "Managed page"
+  context. By using this, you can force the site_template to not run on
+  actual Page Manager pages and use the site_template only as a wrapper
+  for non Page Manager content. If you do this, you need to make sure that
+  your other pages contain all the navigation they need.
 
 Extras
 ======
@@ -103,3 +115,7 @@ String: comparision selection rules to change which display gets used
 based on the URL. You can also use the "Context: exists" selection rule
 to provide default panels only for content that is not already in a panel
 by checking to see if the "Managed page" context exists.
+
+If you have a lot of different site templates or pages that include their own
+navigation, you can also consider using Mini Panels to create common navigation 
+sidebars for easier maintenance.
