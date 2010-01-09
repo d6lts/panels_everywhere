@@ -11,7 +11,7 @@ $plugin = array(
   'title' => t('Default site template'),
   'admin title' => t('Default site template'),
   'admin description' => t('When enabled, the site template allows templates to be selectively applied to all pages.'),
-  'admin path' => t('No path'),
+  'admin path' => FALSE,
 
   // This is task uses 'context' handlers and must implement these to give the
   // handler data it needs.
