@@ -6,3 +6,5 @@ Panels Everywhere 1.x-dev
   o Make sure that page manager edit screens are NOT run through layouts in case of catastrophic configuration of the site_template.
   o #679206: Using the setting to hide Drupal blocks/regions would cause theme('page') to loop infinitely resulting in either bad HTML or whitescreens.
   o Add some descriptive info text to the content types we offer to help introduce people to what will be IN the content and how they can theme them.
+  o Update the README to include instructions on setting the page title to set from the page content pane.
+  o Breadcrumb did not display properly in pane navigation due to error in theme.inc

@@ -23,5 +23,5 @@ function template_preprocess_pane_messages(&$vars) {
 function template_preprocess_pane_navigation(&$vars) {
   $vars['primary_links'] = menu_primary_links();
   $vars['secondary_links'] = menu_secondary_links();
-  $vars['breadcrumb'] = menu_secondary_links();
+  $vars['breadcrumb'] = ctools_set_variable_token('breadcrumb');
 }
