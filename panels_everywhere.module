@@ -68,6 +68,15 @@ function panels_everywhere_ctools_plugin_directory($module, $plugin) {
  */
 function panels_everywhere_theme_registry_alter($registry) {
   if (variable_get('panels_everywhere_site_template_enabled', FALSE)) {
+    // Test to see if we should exclude the administrative theme.
+    if (!variable_get('panels_everywhere_site_template_enabled_admin', FALSE)) {
+      global $theme;
+      $admin_theme = variable_get('admin_theme', '0');
+      if ($admin_theme && $admin_theme == $theme) {
+        return;
+      }
+    }
+
     if (variable_get('panels_everywhere_override_page_tpl', FALSE)) {
       // If we've been set to override the page template, we completely override it:
       $registry['page']['template'] = 'page';

@@ -16,6 +16,14 @@ function panels_everywhere_settings_page() {
     '#default_value' => variable_get('panels_everywhere_site_template_enabled', FALSE),
     '#description' => t('This will enable a page in the page manager pages list that allows you to "wrap" any page in a panels display. You may use variants on that page to check site data such as the URL and apply wrappers selectively.'),
   );
+  $form['panels_everywhere_site_template_enabled_admin'] = array(
+    '#title' => t('Enable Panels Everywhere site template for the admin theme'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('panels_everywhere_site_template_enabled_admin', FALSE),
+    '#description' => t('This will also enable the site template for your admin theme. Note that if your admin theme is the same as your site theme, the site_template will be used regardless of this setting. If you do not wish to use the site_template with your admin theme, you must select a different admin theme at administer >> site configuration >> administration theme.'),
+    '#process' => array('ctools_dependent_process'),
+    '#dependency' => array('edit-panels-everywhere-site-template-enabled' => array(1)),
+  );
 /* @todo
   $form['panels_everywhere_override_blocks'] = array(
     '#title' => t('Override the blocks administration page'),
