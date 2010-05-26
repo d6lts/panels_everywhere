@@ -2,6 +2,8 @@ Changelog for Panels Everywhere
 
 Panels Everywhere 1.x-dev
   o Don't use so many tokens when rendering page elements.
+  o #784812: Don't override module page preprocesses so harshly.
+  o Allow pages to select their template directly rather than going through variant rules. Requires CTools 1.5.
 
 Panels Everywhere 1.0 (2010-Feb-01)
   o #680834: theme.inc include gets lost in theme registry due to Drupal bug. Include theme.inc automatically to compensate.

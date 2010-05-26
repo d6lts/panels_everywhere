@@ -35,6 +35,15 @@ function panels_everywhere_settings_page() {
   );
 */
 
+  $form['panels_everywhere_provide_sample'] = array(
+    '#title' => t('Provide a sample variant for the site template'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('panels_everywhere_provide_sample', FALSE),
+    '#description' => t('If checked, the site template in the page administration will come with a sample variant pre-created with the minimal options, to help get you started faster. It is recommended you use this on a new installation, and once you are comfortable with Panels Everywhere, you can turn this off again to get it out of the way.'),
+    '#process' => array('ctools_dependent_process'),
+    '#dependency' => array('edit-panels-everywhere-site-template-enabled' => array(1)),
+  );
+
   $form['panels_everywhere_override_page_tpl'] = array(
     '#title' => t('Override the page template'),
     '#type' => 'checkbox',
@@ -44,13 +53,34 @@ function panels_everywhere_settings_page() {
     '#dependency' => array('edit-panels-everywhere-site-template-enabled' => array(1)),
   );
 
-  $form['panels_everywhere_provide_sample'] = array(
-    '#title' => t('Provide a sample variant for the site template'),
-    '#type' => 'checkbox',
-    '#default_value' => variable_get('panels_everywhere_provide_sample', FALSE),
-    '#description' => t('If checked, the site template in the page administration will come with a sample variant pre-created with the minimal options, to help get you started faster. It is recommended you use this on a new installation, and once you are comfortable with Panels Everywhere, you can turn this off again to get it out of the way.'),
+  $form['head_title'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Head title'),
+    '#description' => t('The head title is the version of the site title that the browser places in the title bar.'),
+    '#input' => TRUE,
     '#process' => array('ctools_dependent_process'),
-    '#dependency' => array('edit-panels-everywhere-site-template-enabled' => array(1)),
+    '#dependency' => array('edit-panels-everywhere-override-page-tpl' => array(1)),
+    '#id' => 'edit-head-title',
+    '#prefix' => '<div id="edit-head-title-wrapper">',
+    '#suffix' => '</div>',
+  );
+
+  $form['head_title']['panels_everywhere_head_title_include_name'] = array(
+    '#title' => t('Include the site name'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('panels_everywhere_head_title_include_name', TRUE),
+  );
+
+  $form['head_title']['panels_everywhere_head_title_include_slogan'] = array(
+    '#title' => t('Use site slogan if there is no page title'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('panels_everywhere_head_title_include_slogan', TRUE),
+  );
+
+  $form['head_title']['panels_everywhere_head_title_separator'] = array(
+    '#title' => t('Separator'),
+    '#type' => 'textfield',
+    '#default_value' => variable_get('panels_everywhere_head_title_separator', ' | '),
   );
 
   $form['#submit'][] = 'panels_everywhere_settings_page_submit';
