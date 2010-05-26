@@ -13,6 +13,7 @@ $plugin = array(
   'icon' => 'icon_page.png',
   'description' => t('A general page navigation block that includes primary links, secondary links and breadcrumb. This can be easily modified by overriding pane-navigation.tpl.php in your theme.'),
   'category' => t('Page elements'),
+  'render last' => TRUE,
 );
 
 function panels_everywhere_pane_navigation_content_type_render($subtype, $conf, $panel_args) {

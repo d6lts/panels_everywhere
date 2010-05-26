@@ -13,6 +13,7 @@ $plugin = array(
   'icon' => 'icon_page.png',
   'description' => t('A general page messages block that includes tabs, messages and help. It is normally placed in the same region as your content. This can be easily modified by overriding pane-messages.tpl.php in your theme.'),
   'category' => t('Page elements'),
+  'render last' => TRUE,
 );
 
 /**

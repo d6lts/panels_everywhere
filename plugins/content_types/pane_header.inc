@@ -13,6 +13,7 @@ $plugin = array(
   'icon' => 'icon_page.png',
   'description' => t('A general page header block that includes site name, logo and a search box. This can be easily modified by overriding pane-header.tpl.php in your theme.'),
   'category' => t('Page elements'),
+  'render last' => TRUE,
 );
 
 /**

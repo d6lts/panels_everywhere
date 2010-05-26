@@ -1,5 +1,8 @@
 Changelog for Panels Everywhere
 
+Panels Everywhere 1.x-dev
+  o Don't use so many tokens when rendering page elements.
+
 Panels Everywhere 1.0 (2010-Feb-01)
   o #680834: theme.inc include gets lost in theme registry due to Drupal bug. Include theme.inc automatically to compensate.
   o Add a checkbox to allow the admin theme to get Panels Everywhere applied separately.

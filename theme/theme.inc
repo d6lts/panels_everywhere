@@ -7,21 +7,22 @@
  */
 
 function template_preprocess_pane_header(&$vars) {
-  $vars['site_name'] = ctools_set_variable_token('site_name');
-  $vars['site_slogan'] = ctools_set_variable_token('site_slogan');
+  $vars['site_name'] = (theme_get_setting('toggle_name') ? filter_xss_admin(variable_get('site_name', 'Drupal')) : '');
+
+  $vars['site_slogan'] = (theme_get_setting('toggle_slogan') ? filter_xss_admin(variable_get('site_slogan', '')) : '');
   $vars['front_page'] = url();
-  $vars['logo'] = ctools_set_variable_token('logo');
-  $vars['search_box'] = ctools_set_variable_token('search_box');
+  $vars['logo'] = theme_get_setting('logo');
+  $vars['search_box'] = (theme_get_setting('toggle_search') ? drupal_get_form('search_theme_form') : '');
 }
 
 function template_preprocess_pane_messages(&$vars) {
-  $vars['tabs'] = ctools_set_variable_token('tabs');
-  $vars['messages'] = ctools_set_variable_token('messages');
-  $vars['help'] = ctools_set_variable_token('help');
+  $vars['tabs'] = theme('menu_local_tasks');
+  $vars['messages'] = theme('status_messages');
+  $vars['help'] = theme('help');
 }
 
 function template_preprocess_pane_navigation(&$vars) {
   $vars['primary_links'] = menu_primary_links();
   $vars['secondary_links'] = menu_secondary_links();
-  $vars['breadcrumb'] = ctools_set_variable_token('breadcrumb');
+  $vars['breadcrumb'] = theme('breadcrumb', drupal_get_breadcrumb());
 }
