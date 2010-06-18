@@ -22,6 +22,7 @@ $plugin = array(
   // Allow this to be enabled or disabled:
   'disabled' => !variable_get('panels_everywhere_site_template_enabled', FALSE),
   'enable callback' => 'panels_everywhere_site_template_enable',
+  'tab title' => t('Edit site template'),
 );
 
 /**
