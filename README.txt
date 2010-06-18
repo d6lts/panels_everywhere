@@ -29,6 +29,9 @@ may be quite difficult.
 
 Step 2
 ------
+Enable Panels Everywhere. If not using UID 1, be sure the user you're using
+has 'administer page manager' privileges.
+
 Navigate to Administer >> Site building >> Panels >> Settings >> Everywhere.
 
 Check the box to enable the site template. 
@@ -102,6 +105,11 @@ Extras
 
 For best results, customized layouts are the way to go. They can include as
 much or as little of the page template as you need, and are easily selectable.
+When you customize a layout, if it will be heavily styled, it is recommended
+that you provide a separate admin layout (in the layout.inc there are 
+'admin theme' and 'admin css' settings) to provide a less styled layout for
+the purposes of editing. This will be critical to keep the editing UI from
+getting too messy.
 
 The navigation, header and messages blocks can be easily customized by copying
 the appropriate pane-*.tpl.php files from the themes directory to your theme,
