@@ -86,6 +86,7 @@ function panels_everywhere_theme_registry_alter($registry) {
     }
 
     if (variable_get('panels_everywhere_override_page_tpl', FALSE)) {
+      $registry['original page'] = $registry['page'];
       // If we've been set to override the page template, we completely override it:
       $registry['page']['template'] = 'page';
       $registry['page']['type'] = 'module';
@@ -106,8 +107,13 @@ function panels_everywhere_theme_registry_alter($registry) {
         $registry['page']['preprocess functions'][] = $module . '_preprocess';
       }
       foreach (module_implements('preprocess_page') as $module) {
-        $registry['page']['preprocess functions'][] = $module . '_preprocess_page';
+        if ($module != 'ctools') {
+          $registry['page']['preprocess functions'][] = $module . '_preprocess_page';
+        }
       }
+
+      // CTools wants to be last
+      $registry['page']['preprocess functions'][] = 'ctools_preprocess_page';
     }
     else {
       array_unshift($registry['page']['preprocess functions'], 'panels_everywhere_page_preprocess');
@@ -124,11 +130,11 @@ function panels_everywhere_theme_registry_alter($registry) {
 function panels_everywhere_page_preprocess(&$vars) {
   // For safety reasons, do not run this on the actual page configuration
   // pages and instead allow a more traditional output.
-  if (strncmp($_GET['q'], 'admin/build/pages/edit', 21) == 0) {
-    return;
+  if (strpos($_GET['q'], 'admin/build/pages/nojs/operation/site_template') === 0) {
+    return panels_everywhere_fallback_page($vars);
   }
-  if (strncmp($_GET['q'], 'admin/build/pages/nojs', 21) == 0) {
-    return;
+  if (strncmp($_GET['q'], 'admin/build/pages/site_template', 21) == 0) {
+    return panels_everywhere_fallback_page($vars);
   }
 
   $task = page_manager_get_task('site_template');
@@ -182,6 +188,14 @@ function panels_everywhere_page_preprocess(&$vars) {
       $vars['show_blocks'] = FALSE;
     }
   }
+}
+
+function panels_everywhere_fallback_page(&$vars) {
+  print theme('original page', $vars['content'], $vars['show_blocks'], $vars['show_messages']);
+  // There's no easy way to short circuit the rest of our processing, and
+  // this is a pretty rare case anyway, so just do it.
+  module_invoke_all('exit');
+  exit;
 }
 
 /**

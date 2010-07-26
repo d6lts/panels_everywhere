@@ -48,7 +48,7 @@ function panels_everywhere_settings_page() {
     '#title' => t('Override the page template'),
     '#type' => 'checkbox',
     '#default_value' => variable_get('panels_everywhere_override_page_tpl', FALSE),
-    '#description' => t('If checked, the page.tpl.php file and preprocess functions in your theme will not be used. Instead the simplified page.tpl.php provided by Panels Everywhere will be used. This is recommended once you have your site templates set up, unless you actually need to have more control over the final page template.'),
+    '#description' => t('If checked, the page.tpl.php file and preprocess functions in your theme will not be used. Instead the simplified page.tpl.php provided by Panels Everywhere will be used. This is recommended once you have your site templates set up, unless you actually need to have more control over the final page template. <strong>Note that for safety reasons, editing the site_template page will always happen in the default page.tpl.php just in case your site template is not valid.</strong>'),
     '#process' => array('ctools_dependent_process'),
     '#dependency' => array('edit-panels-everywhere-site-template-enabled' => array(1)),
   );
