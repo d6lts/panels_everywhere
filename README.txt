@@ -119,10 +119,10 @@ your template.php. The token function can accept any variable that would
 normally appear in your page.tpl.php.
 
 You can easily add more variants and use the regular expressions in the
-String: comparision selection rules to change which display gets used
-based on the URL. You can also use the "Context: exists" selection rule
-to provide default panels only for content that is not already in a panel
-by checking to see if the "Managed page" context exists.
+String: comparison selection rules to change which display gets used based on
+the URL. You can also use the "Context: exists" selection rule to provide
+default panels only for content that is not already in a panel by checking to
+see if the "Managed page" context exists.
 
 If you have a lot of different site templates or pages that include their own
 navigation, you can also consider using Mini Panels to create common navigation 
