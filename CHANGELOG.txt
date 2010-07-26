@@ -1,6 +1,6 @@
 Changelog for Panels Everywhere
 
-Panels Everywhere 1.x-dev
+Panels Everywhere 1.1 (2010-Jul-26)
   o Don't use so many tokens when rendering page elements.
   o #784812: Don't override module page preprocesses so harshly.
   o #805180: Allow pages to select their template directly rather than going through variant rules. Works only with CTools 1.5.
