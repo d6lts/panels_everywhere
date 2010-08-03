@@ -1,4 +1,6 @@
 Changelog for Panels Everywhere
+Panels Everywhere -dev
+  o Take advantage of changes in CTools to allow Panels Everywhere to get more context.
 
 Panels Everywhere 1.1 (2010-Jul-26)
   o Don't use so many tokens when rendering page elements.

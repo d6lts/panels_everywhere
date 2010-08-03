@@ -148,7 +148,13 @@ function panels_everywhere_page_preprocess(&$vars) {
   ctools_include('context-task-handler');
 
   $page = page_manager_get_current_page();
-  $args = array($_GET['q'], $content, $page);
+  if (version_compare(CTOOLS_API_VERSION, 1.8, '<')) {
+    $args = array($_GET['q'], $content, $page);
+  }
+  else {
+    $args = array($content);
+  }
+
   $contexts = ctools_context_handler_get_task_contexts($task, '', $args);
 
   // Test to see if a site template has been specifically assigned to the
@@ -191,11 +197,13 @@ function panels_everywhere_page_preprocess(&$vars) {
 }
 
 function panels_everywhere_fallback_page(&$vars) {
-  print theme('original page', $vars['content'], $vars['show_blocks'], $vars['show_messages']);
-  // There's no easy way to short circuit the rest of our processing, and
-  // this is a pretty rare case anyway, so just do it.
-  module_invoke_all('exit');
-  exit;
+  if (variable_get('panels_everywhere_override_page_tpl', FALSE)) {
+    print theme('original page', $vars['content'], $vars['show_blocks'], $vars['show_messages']);
+    // There's no easy way to short circuit the rest of our processing, and
+    // this is a pretty rare case anyway, so just do it.
+    module_invoke_all('exit');
+    exit;
+  }
 }
 
 /**

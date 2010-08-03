@@ -127,3 +127,46 @@ see if the "Managed page" context exists.
 If you have a lot of different site templates or pages that include their own
 navigation, you can also consider using Mini Panels to create common navigation 
 sidebars for easier maintenance.
+
+Contexts
+========
+
+Your site template will now attempt to find contexts from the environment as
+best as it can. It handles all of the default Drupal locations, and if using
+a Page Manager page it can do some inheritance.
+
+Currently Panels Everywhere can find the following contexts:
+  o url: The internal URL of the page.
+  
+  o alias: The alias of the page. Most of the time this is the URL actually
+        visited, but beware that if the page has multiple aliases, it will
+        be the *first* alias Drupal finds. i.e, if foo has aliases of 'bar'
+        and 'baz', when visiting 'bar' or 'baz' the alias will always appear
+        as 'bar' because it comes first in the list.
+  o user: The logged in user.
+
+  o node:  The node being viewed. If visiting node/% or if visiting a page 
+        manager page that contains a node context, that node will be used. 
+        If the page manager page has multiple node contexts (due to 
+        relationships or multiple nid arguments) only the first node will 
+        appear in context.
+
+  o account: A user context for the user being viewed. Will appear on profile
+         pages and on any page manager page with a user context (not
+         counting the logged in user.)
+
+  o term: The taxonomy term being viewed if on a taxonomy term page. This 
+         won't work if viewing multiple terms (i.e, taxonomy/term/1,2) unless
+         using a page manager page that derives a single term context.
+
+In addition, before this is actually utilized you can use 
+hook_panels_everywhere_contexts(&$contexts, $placeholders).
+
+If you add contexts, use this function:
+  panels_everywhere_site_template_add_context($contexts, $context, t('Human readable identifier'), 'keyword', 'internalid');
+
+If $placeholders is TRUE, create your context using 
+ctools_context_create_empty('type'); if $placeholders is FALSE, create
+your context using ctools_context_create('type', $object). If no object
+exists, create it as an empty context. It is important that an empty context
+appears even if there is not an object to keep the UI consistent.
