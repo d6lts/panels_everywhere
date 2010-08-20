@@ -193,6 +193,15 @@ function panels_everywhere_page_preprocess(&$vars) {
     if (!empty($info['no_blocks'])) {
       $vars['show_blocks'] = FALSE;
     }
+
+    $vars['panels_everywhere_site_template'] = array(
+      'name' => 'site_template',
+      'task' => $task,
+      'subtask' => '',
+      'contexts' => $contexts,
+      'arguments' => $args,
+      'handler' => $info['handler'],
+    );
   }
 }
 
@@ -395,6 +404,8 @@ function panels_everywhere_variant_template_submit(&$form, &$form_state) {
  */
 function panels_everywhere_ctools_render_alter($info, $page, $args, $contexts, $task, $subtask, $handler) {
   if ($task['name'] == 'site_template') {
+    // Make sure the handler actually used is available later on.
+    $info['handler'] = $handler;
     return;
   }
 

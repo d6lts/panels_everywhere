@@ -170,3 +170,41 @@ ctools_context_create_empty('type'); if $placeholders is FALSE, create
 your context using ctools_context_create('type', $object). If no object
 exists, create it as an empty context. It is important that an empty context
 appears even if there is not an object to keep the UI consistent.
+
+Making Panels Everywhere aware themes
+=====================================
+
+To make a theme PE aware, all that really matters is to provide a default site
+template that matches what the theme's page.tpl.php should be. To do this, 
+create a site template in your site. Export the handler via the bulk export 
+mechanism. Edit your .info file to contain these lines:
+
+; We provide default page manager pages for our site template
+api[page_manager][pages_default][version] = 1
+api[page_manager][pages_default][path] = pages
+
+The bulk export will give you a .pages_default.inc file -- just place that in 
+the 'pages' directory. Your new site template should be immediately available.
+
+It's a very good idea to add a 'selection criteria' so that this template will
+only activate when your theme is the active theme.
+
+You can also give your theme a hybrid mode where it will be smart and use its
+normal page.tpl.php if the site_template is not in use, and use a stripped
+down page.tpl.php if it is. Place the following code in your theme (chances
+are you already have a preprocess page).
+
+  function MYTHEME_preprocess_page(&$vars) {
+    if (!empty($vars['panels_everywhere_site_template'])) {
+      $vars['template_file'] = 'page-panels-everywhere';
+    }
+  }
+
+Then copy panels_everywhere/theme/page.tpl.php to 
+page-panels-everywhere.tpl.php in your theme. Once this is done, your theme
+will play nice with Panels Everywhere even if the option to take over the
+page template is not enabled.
+
+There is rather a lot of information available via this variable if you like.
+The actual template used will be in $vars['panels_everywhere_site_template']['handler']
+and the contexts will be in $vars['panels_everywhere_site_template']['contexts'].
