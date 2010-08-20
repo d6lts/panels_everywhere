@@ -52,6 +52,31 @@ function panels_everywhere_settings_page() {
     '#process' => array('ctools_dependent_process'),
     '#dependency' => array('edit-panels-everywhere-site-template-enabled' => array(1)),
   );
+  $form['panels_everywhere_site_template_per_theme'] = array(
+    '#title' => t('Enable Panels Everywhere site template on a per-theme basis'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('panels_everywhere_site_template_per_theme', FALSE),
+    '#description' => t('This setting lets you choose which themes are overridden by Panels Everywhere.'),
+    '#process' => array('ctools_dependent_process'),
+    '#dependency' => array('edit-panels-everywhere-override-page-tpl' => array(1),
+                           'edit-panels-everywhere-site-template-enabled' => array(1)),
+    '#dependency_count' => 2,
+  );
+
+  $themes = system_theme_data();
+  uasort($themes, 'panels_everywhere_sort_themes_by_info_name');
+  foreach ($themes as $theme) {
+    $form['panels_everywhere_override_theme_' . $theme->name] = array(
+      '#type' => 'checkbox',
+      '#title' => t($theme->info['name']),
+      '#default_value' => variable_get('panels_everywhere_override_theme_' . $theme->name, FALSE),
+      '#process' => array('ctools_dependent_process'),
+      '#dependency' => array('edit-panels-everywhere-override-page-tpl' => array(1),
+                             'edit-panels-everywhere-site-template-enabled' => array(1),
+                             'edit-panels-everywhere-site-template-per-theme' => array(1)),
+      '#dependency_count' => 3
+    );
+  }
 
   $form['head_title'] = array(
     '#type' => 'fieldset',
@@ -93,4 +118,15 @@ function panels_everywhere_settings_page_submit(&$form, &$form_state) {
     $form_state['values']['panels_everywhere_override_blocks'] = FALSE;
     $form_state['values']['panels_everywhere_override_page_tpl'] = FALSE;
   }
+  if (empty($form_state['values']['panels_everywhere_override_page_tpl'])) {
+    $form_state['values']['panels_everywhere_site_template_per_theme'] = FALSE;
+  }
 }
+
+/**
+ * Array sorting callback; sorts modules or themes by their name.
+ */
+function panels_everywhere_sort_themes_by_info_name($a, $b) {
+  return strcasecmp($a->info['name'], $b->info['name']);
+}
+
