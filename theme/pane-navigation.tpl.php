@@ -8,8 +8,8 @@
  *
  * This utilizes the following variables thata re normally found in
  * page.tpl.php:
- * - $primary_links
- * - $secondary_links
+ * - $main_menu
+ * - $secondary_menu
  * - $breadcrumb
  * - $mission
  *
@@ -17,16 +17,16 @@
  * template_preprocess_pane_messages() for examples.
  */
  ?>
-<div id="navigation" class="menu <?php if (!empty($primary_links)) { print "withprimary"; } if (!empty($secondary_links)) { print " withsecondary"; } ?> ">
-  <?php if (!empty($primary_links)): ?>
+<div id="navigation" class="menu <?php if (!empty($main_menu)) { print "withprimary"; } if (!empty($secondary_menu)) { print " withsecondary"; } ?> ">
+  <?php if (!empty($main_menu)): ?>
     <div id="primary" class="clear-block">
-      <?php print theme('links', $primary_links, array('class' => 'links primary-links')); ?>
+      <?php print $main_menu; ?>
     </div>
   <?php endif; ?>
 
-  <?php if (!empty($secondary_links)): ?>
+  <?php if (!empty($secondary_menu)): ?>
     <div id="secondary" class="clear-block">
-      <?php print theme('links', $secondary_links, array('class' => 'links secondary-links')); ?>
+      <?php print $secondary_menu; ?>
     </div>
   <?php endif; ?>
 

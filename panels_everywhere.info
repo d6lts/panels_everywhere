@@ -4,4 +4,5 @@ description = Allow your site to use Panels instead of Blocks to lay out your pa
 package = "Panels"
 dependencies[] = panels
 dependencies[] = page_manager
-core = 6.x
+core = 7.x
+files[] = panels_everywhere.module

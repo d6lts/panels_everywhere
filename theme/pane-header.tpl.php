@@ -18,7 +18,7 @@
  * template_preprocess_pane_header() for examples.
  */
  ?>
-<div id="header">
+<div id="header clearfix">
   <div id="logo-title">
 
     <?php if (!empty($logo)): ?>
@@ -28,10 +28,16 @@
     <?php endif; ?>
 
     <div id="name-and-slogan">
-      <?php if (!empty($site_name)): ?>
-        <h1 id="site-name">
-          <a href="<?php print $front_page ?>" title="<?php print t('Home'); ?>" rel="home"><span><?php print $site_name; ?></span></a>
-        </h1>
+      <?php if ($site_name): ?>
+        <?php if ($title): ?>
+          <div id="site-name"><strong>
+            <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home"><span><?php print $site_name; ?></span></a>
+          </strong></div>
+        <?php else: /* Use h1 when the content title is empty */ ?>
+          <h1 id="site-name">
+            <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home"><span><?php print $site_name; ?></span></a>
+          </h1>
+        <?php endif; ?>
       <?php endif; ?>
 
       <?php if (!empty($site_slogan)): ?>

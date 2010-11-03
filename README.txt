@@ -77,7 +77,7 @@ themes will have CSS that expects different markup. To create a blank theme:
 
 name = Blank
 description = Blank
-core = 6.x
+core = 7.x
 stylesheets[all][] = blank.css
 engine = phptemplate
 

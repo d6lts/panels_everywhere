@@ -13,7 +13,7 @@ function panels_everywhere_default_page_manager_handlers() {
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'site_template_panel_context';
+  $handler->name = 'site_template_panel_context_basic';
   $handler->task = 'site_template';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
@@ -29,6 +29,7 @@ function panels_everywhere_default_page_manager_handlers() {
       'plugins' => array(),
       'logic' => 'and',
     ),
+    'pipeline' => 'standard',
   );
   $display = new panels_display;
   $display->layout = 'flexible';

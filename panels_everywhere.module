@@ -13,7 +13,7 @@
 function panels_everywhere_menu() {
   $items = array();
 
-  $items['admin/build/panels/settings/everywhere'] = array(
+  $items['admin/structure/panels/settings/everywhere'] = array(
     'title' => 'Everywhere',
     'file' => 'panels_everywhere.admin.inc',
     'page callback' => 'drupal_get_form',
@@ -22,7 +22,7 @@ function panels_everywhere_menu() {
     'type' => MENU_LOCAL_TASK,
   );
   if (variable_get('panels_everywhere_site_template_enabled', FALSE)) {
-    $items['admin/build/pages/site_template'] = array(
+    $items['admin/structure/pages/site_template'] = array(
       'title' => 'Edit site template',
       'page callback' => 'panels_everywhere_edit_site_template',
       'type' => MENU_LOCAL_TASK,
@@ -44,16 +44,21 @@ function panels_everywhere_theme() {
     'path' => $path,
   );
   $theme['pane_header'] = array(
-    'arguments' => array(),
+    'variables' => array(),
     'template' => 'pane-header',
   ) + $base;
   $theme['pane_messages'] = array(
-    'arguments' => array(),
+    'variables' => array(),
     'template' => 'pane-messages',
   ) + $base;
   $theme['pane_navigation'] = array(
-    'arguments' => array(),
+    'variables' => array(),
     'template' => 'pane-navigation',
+  ) + $base;
+
+  // Our alternative to theme('page').
+  $theme['panels_everywhere_page'] = array(
+    'render element' => 'page',
   ) + $base;
 
   return $theme;
@@ -69,13 +74,18 @@ function panels_everywhere_ctools_plugin_directory($module, $plugin) {
 }
 
 function panels_everywhere_should_override_theme() {
-  if (!variable_get('panels_everywhere_override_page_tpl', FALSE))
-    return FALSE;
-
-  if (!variable_get('panels_everywhere_site_template_per_theme', FALSE))
-    return TRUE;
-
   global $theme;
+  if (!variable_get('panels_everywhere_site_template_per_theme', FALSE)) {
+    if (!variable_get('panels_everywhere_site_template_enabled_admin', FALSE)) {
+      $admin_theme = variable_get('admin_theme', '0');
+      if ($admin_theme && $admin_theme == $theme) {
+        return FALSE;
+      }
+    }
+
+    return TRUE;
+  }
+
   return variable_get('panels_everywhere_override_theme_' . $theme, FALSE);
 }
 
@@ -85,18 +95,11 @@ function panels_everywhere_should_override_theme() {
  * This is the magic of this module, which allows us to completely override
  * how pages are output.
  */
-function panels_everywhere_theme_registry_alter($registry) {
+function xpanels_everywhere_theme_registry_alter($registry) {
   if (!panels_everywhere_should_override_theme())
     return;
 
   // Test to see if we should exclude the administrative theme.
-  if (!variable_get('panels_everywhere_site_template_enabled_admin', FALSE)) {
-    global $theme;
-    $admin_theme = variable_get('admin_theme', '0');
-    if ($admin_theme && $admin_theme == $theme) {
-      return;
-    }
-  }
 
   $registry['original page'] = $registry['page'];
   // If we've been set to override the page template, we completely override it:
@@ -128,98 +131,101 @@ function panels_everywhere_theme_registry_alter($registry) {
   $registry['page']['preprocess functions'][] = 'ctools_preprocess_page';
 }
 
+function panels_everywhere_page_build(&$page) {
+  if (!panels_everywhere_should_override_theme()) {
+    return;
+  }
+
+  global $theme;
+  // The theme system might not yet be initialized. We need $theme.
+  drupal_theme_initialize();
+
+  // @todo -- protect the main editing template from destruction.
+  if (strpos($_GET['q'], 'admin/structure/pages/nojs/operation/site_template') === 0) {
+    return;
+  }
+
+  // @todo
+  // test to see if Panels Everywhere is enabled for the current theme.
+
+
+  $task = page_manager_get_task('site_template');
+  $handlers = page_manager_load_sorted_handlers($task, '', TRUE);
+
+  // Test to see if something has specified that we use a specific
+  // template on this page.
+  $handler = panels_everywhere_get_site_template();
+
+  // If not, ask.
+  if (empty($handler)) {
+    if (!$handlers) {
+      return;
+    }
+
+    ctools_include('context');
+    ctools_include('context-task-handler');
+    $args = array('');
+    $contexts = ctools_context_handler_get_task_contexts($task, '', $args);
+
+    $handler_name = ctools_context_handler_get_render_handler($task, '', $handlers, $contexts, $args);
+    if ($handler_name) {
+      $handler = $handlers[$handler_name];
+    }
+  }
+
+  if ($handler) {
+    // Reset the page theme to use the panels everywhere output
+    // instead of the normal page.
+    $page['#theme'] = 'panels_everywhere_page';
+    $page['#handler'] = $handler;
+
+    // This completely disables blocks on a page without disabling block.module
+    // and without going through the extra processor time of building blocks that
+    // do not exist.
+
+    // Now get the real list
+    $list = &drupal_static('list_themes', array());
+
+    // Ensure theme list is built.
+    $themes = list_themes();
+
+    // Clear out the list of regions. Block module will not try to
+    // render anything not in this regions list.
+    $list[$theme]->info['regions'] = array();
+  }
+}
+
 /**
  * Page preprocess to run the page content into our site template task.
  *
  * This is NOT named by the normal rules because this is not picked up
  * automatically. It is controlled by an alter so that it can come first.
  */
-function panels_everywhere_page_preprocess(&$vars) {
-  // For safety reasons, do not run this on the actual page configuration
-  // pages and instead allow a more traditional output.
-  if (strpos($_GET['q'], 'admin/build/pages/nojs/operation/site_template') === 0) {
-    return panels_everywhere_fallback_page($vars);
-  }
-  if (strncmp($_GET['q'], 'admin/build/pages/site_template', 21) == 0) {
-    return panels_everywhere_fallback_page($vars);
-  }
-
+function theme_panels_everywhere_page($vars) {
+  $page = &$vars['page'];
   $task = page_manager_get_task('site_template');
 
   $content = new stdClass();
   $content->title = drupal_get_title();
-  $content->content = $vars['content'];
+  $content->content = $page['content'];
 
-  // Load the node into a context.
-  ctools_include('context');
-  ctools_include('context-task-handler');
-
-  $page = page_manager_get_current_page();
-  if (version_compare(CTOOLS_API_VERSION, 1.8, '<')) {
-    $args = array($_GET['q'], $content, $page);
-  }
-  else {
-    $args = array($content);
-  }
-
+  $args = array($content);
   $contexts = ctools_context_handler_get_task_contexts($task, '', $args);
 
-  // Test to see if a site template has been specifically assigned to the
-  // current page. If so, render that variant just as though
-  // it were rendered by the access checker.
-  if ($handler_name = panels_everywhere_get_site_template()) {
-    // This is the "no template" variant meaning we do absolutely nothing here.
-    if ($handler_name == -1) {
-      return;
-    }
+  // @todo -- we need a way to insert the page content into the panel
+  // if for some reason they left out the page content pane.
+  $info = ctools_context_handler_render_handler($task, '', $page['#handler'], $contexts, $args, FALSE);
 
-    $handler = page_manager_load_task_handler($task, '', $handler_name);
-    if ($handler && ($function = page_manager_get_renderer($handler))) {
-      // Render this with $test == FALSE to make it skip access checking.
-      if ($info = $function($handler, $contexts, $args, FALSE)) {
-        drupal_alter('ctools_render', $info, $page, $args, $contexts, $task, '', $handler);
-      }
-    }
-  }
+  // @todo -- is this even necessary?
+  $page['#panels_everywhere_site_template'] = array(
+    'name' => 'site_template',
+    'task' => $task,
+    'subtask' => '',
+    'contexts' => $contexts,
+    'arguments' => $args,
+  );
 
-  // If there is no $info, meaning the above had no template or the template
-  // chose not to render, go through the normal process for finding one.
-  if (empty($info)) {
-    // Since we're inside theme('page') we must call ctools_context_handler_render as though
-    // we don't own the page, because crazy as it sounds, we don't.
-    $info = ctools_context_handler_render($task, '', $contexts, $args, FALSE);
-  }
-
-  if ($info && !empty($info['content'])) {
-    // Because we run so early, we have to use drupal_set_title() and not
-    // just set $vars['title']. Otherwise it will get overwritten.
-    if (isset($info['title'])) {
-      drupal_set_title($info['title']);
-    }
-    $vars['content'] = $info['content'];
-    if (!empty($info['no_blocks'])) {
-      $vars['show_blocks'] = FALSE;
-    }
-
-    $vars['panels_everywhere_site_template'] = array(
-      'name' => 'site_template',
-      'task' => $task,
-      'subtask' => '',
-      'contexts' => $contexts,
-      'arguments' => $args,
-      'handler' => $info['handler'],
-    );
-  }
-}
-
-function panels_everywhere_fallback_page(&$vars) {
-  if (!panels_everywhere_should_override_theme()) {
-    print theme('original page', $vars['content'], $vars['show_blocks'], $vars['show_messages']);
-    // There's no easy way to short circuit the rest of our processing, and
-    // this is a pretty rare case anyway, so just do it.
-    module_invoke_all('exit');
-    exit;
-  }
+  return $info['content'];
 }
 
 /**
@@ -232,7 +238,7 @@ function panels_everywhere_fallback_page(&$vars) {
  *   The name of the task handler to use.
  */
 function panels_everywhere_set_site_template($handler) {
-  $store = &ctools_static('panels_everywhere_site_template');
+  $store = &drupal_static('panels_everywhere_site_template');
   $store = $handler;
 }
 
@@ -244,7 +250,7 @@ function panels_everywhere_set_site_template($handler) {
  * was set to.
  */
 function panels_everywhere_get_site_template() {
-  return ctools_static('panels_everywhere_site_template');
+  return drupal_static('panels_everywhere_site_template');
 }
 
 /**
@@ -301,19 +307,6 @@ function panels_everywhere_ctools_plugin_api($module, $api) {
   if (variable_get('panels_everywhere_provide_sample', FALSE) && $module == 'page_manager' && $api == 'pages_default') {
     return array('version' => 1);
   }
-}
-
-/**
- * Drupal has a bug that causes theme file includes to get lost. However,
- * it is really convenient to have preprocess functions separated out
- * so that they 1) don't load code when unnecessary and 2) are easy to
- * find for non-developers.
- *
- * Until this bug http://drupal.org/node/591804 is fixed, we must have
- * this include.
- */
-function panels_everywhere_init() {
-  ctools_include('theme', 'panels_everywhere', 'theme');
 }
 
 /**
@@ -409,7 +402,7 @@ function panels_everywhere_variant_template_submit(&$form, &$form_state) {
  * When a Page Manager page is rendered, set the selected site template
  * if it has been chosen.
  */
-function panels_everywhere_ctools_render_alter($info, $page, $args, $contexts, $task, $subtask, $handler) {
+function xpanels_everywhere_ctools_render_alter($info, $page, $args, $contexts, $task, $subtask, $handler) {
   if ($task['name'] == 'site_template') {
     // Make sure the handler actually used is available later on.
     $info['handler'] = $handler;

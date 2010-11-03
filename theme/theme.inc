@@ -15,14 +15,34 @@ function template_preprocess_pane_header(&$vars) {
   $vars['search_box'] = (theme_get_setting('toggle_search') ? drupal_get_form('search_theme_form') : '');
 }
 
+function template_process_pane_header(&$vars) {
+  $vars['title'] = drupal_get_title();
+}
+
 function template_preprocess_pane_messages(&$vars) {
   $vars['tabs'] = theme('menu_local_tasks');
-  $vars['messages'] = theme('status_messages');
   $vars['help'] = theme('help');
 }
 
+function template_process_pane_messages(&$vars) {
+  $vars['messages'] = theme('status_messages');
+}
+
 function template_preprocess_pane_navigation(&$vars) {
-  $vars['primary_links'] = menu_primary_links();
-  $vars['secondary_links'] = menu_secondary_links();
-  $vars['breadcrumb'] = theme('breadcrumb', drupal_get_breadcrumb());
+  $vars['main_menu'] = menu_main_menu();
+  $vars['secondary_menu'] = menu_secondary_menu();
+}
+
+function template_process_pane_navigation(&$vars) {
+  $vars['main_menu'] = theme('links__system_main_menu', array(
+    'links' => $vars['main_menu'],
+    'attributes' => array('id' => 'main-menu', 'class' => array('links', 'clearfix')),
+    'heading' => t('Main menu')
+  ));
+  $vars['secondary_menu'] = theme('links__system_secondary_menu', array(
+    'links' => $vars['secondary_menu'],
+    'attributes' => array('id' => 'secondary-menu', 'class' => array('links', 'clearfix')),
+    'heading' => t('Secondary menu')
+  ));
+  $vars['breadcrumb'] = theme('breadcrumb', array('breadcrumb' => drupal_get_breadcrumb()));
 }

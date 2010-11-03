@@ -39,8 +39,9 @@ function panels_everywhere_page_content_content_type_render($subtype, $conf, $pa
 /**
  * Returns an edit form for custom type settings.
  */
-function panels_everywhere_page_content_content_type_edit_form(&$form, &$form_state) {
+function panels_everywhere_page_content_content_type_edit_form($form, &$form_state) {
   // provide a blank form so we have a place to have context setting.
+  return $form;
 }
 
 function panels_everywhere_page_content_content_type_admin_info($subtype, $conf, $context) {

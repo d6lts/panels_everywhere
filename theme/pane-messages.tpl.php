@@ -19,5 +19,5 @@
 <?php if (!empty($tabs)): ?>
   <div class="tabs"><?php print $tabs; ?></div>
 <?php endif; ?>
-<?php if (!empty($messages)): print $messages; endif; ?>
-<?php if (!empty($help)): print $help; endif; ?>
+<?php print $messages; ?>
+<?php print $help; ?>
