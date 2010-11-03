@@ -35,18 +35,6 @@ $plugin = array(
 function panels_everywhere_site_template_get_arguments($task, $subtask_id) {
   $arguments = array();
 
-  // Prior to version 1.8 the URL is passed in as an
-  // argument. In 1.8 or later it is derived from the base contexts.
-  if (version_compare(CTOOLS_API_VERSION, 1.8, '<')) {
-    $arguments[] = array(
-      'keyword' => 'url',
-      'identifier' => t('URL'),
-      'id' => 1,
-      'name' => 'string',
-      'settings' => array(),
-    );
-  }
-
   $arguments[] = array(
     'keyword' => 'content',
     'identifier' => t('Page content'),
@@ -54,18 +42,6 @@ function panels_everywhere_site_template_get_arguments($task, $subtask_id) {
     'name' => 'page_content',
     'settings' => array(),
   );
-
-  // Prior to version 1.8 the "managed page" is passed in as an
-  // argument. In 1.8 or later it is derived from the base contexts.
-  if (version_compare(CTOOLS_API_VERSION, 1.8, '<')) {
-    $arguments[] = array(
-      'keyword' => 'page',
-      'identifier' => t('Managed page'),
-      'id' => 1,
-      'name' => 'managed_page',
-      'settings' => array(),
-    );
-  }
 
   return $arguments;
 }
