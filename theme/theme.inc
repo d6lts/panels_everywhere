@@ -54,6 +54,7 @@ function template_process_pane_header(&$vars) {
 
 function template_preprocess_pane_messages(&$vars) {
   $vars['tabs'] = theme('menu_local_tasks');
+  $vars['action_links'] = menu_local_actions();
   $vars['help'] = theme('help');
 }
 

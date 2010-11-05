@@ -21,8 +21,18 @@ function panels_everywhere_default_page_manager_handlers() {
   $handler->conf = array(
     'title' => 'Sample variant',
     'no_blocks' => 1,
-    'css_id' => '',
-    'css' => '',
+    'css_id' => 'page-wrapper',
+    'css' => '/* set a fixed overall width */
+  #page-wrapper > .panel-flexible-inside {
+    width: 1020px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Add some margin to the main content row. This class was set in the layout designer. */
+  #page-wrapper .main-content {
+    padding: 0 10px;
+  }',
     'contexts' => array(),
     'relationships' => array(),
     'access' => array(
@@ -39,17 +49,26 @@ function panels_everywhere_default_page_manager_handlers() {
         'type' => 'row',
         'contains' => 'column',
         'children' => array(
-          '0' => 'main',
+          0 => 'main',
         ),
         'parent' => NULL,
+        'class' => '',
+        'column_class' => '',
+        'row_class' => '',
+        'region_class' => '',
+        'no_scale' => FALSE,
+        'fixed_width' => '',
+        'column_separation' => '0.5em',
+        'region_separation' => '0.5em',
+        'row_separation' => '0.5em',
       ),
       'main' => array(
         'type' => 'column',
         'width' => 100,
         'width_type' => '%',
         'children' => array(
-          '0' => 1,
-          '1' => 'main-row',
+          0 => 1,
+          1 => 'main-row',
         ),
         'parent' => 'canvas',
       ),
@@ -57,10 +76,11 @@ function panels_everywhere_default_page_manager_handlers() {
         'type' => 'row',
         'contains' => 'region',
         'children' => array(
-          '0' => 'content',
-          '1' => 'sidebar',
+          0 => 'content',
+          1 => 'sidebar',
         ),
         'parent' => 'main',
+        'class' => 'main-content',
       ),
       'content' => array(
         'type' => 'region',
@@ -77,13 +97,14 @@ function panels_everywhere_default_page_manager_handlers() {
         'width_type' => 'px',
         'parent' => 'main-row',
       ),
-      '1' => array(
+      1 => array(
         'type' => 'row',
         'contains' => 'region',
         'children' => array(
-          '0' => 'header',
+          0 => 'header',
         ),
         'parent' => 'main',
+        'class' => 'header',
       ),
       'header' => array(
         'type' => 'region',
@@ -94,11 +115,16 @@ function panels_everywhere_default_page_manager_handlers() {
       ),
     ),
   );
-  $display->panel_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'content' => NULL,
+      'sidebar' => NULL,
+      'header' => NULL,
+    ),
+  );
   $display->cache = array();
   $display->title = '';
-  $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = 'new-2';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -110,7 +136,9 @@ function panels_everywhere_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array();
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
@@ -129,7 +157,9 @@ function panels_everywhere_default_page_manager_handlers() {
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 1;
@@ -144,7 +174,9 @@ function panels_everywhere_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array();
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
@@ -159,7 +191,9 @@ function panels_everywhere_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array();
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 1;
@@ -169,7 +203,7 @@ function panels_everywhere_default_page_manager_handlers() {
     $pane->pid = 'new-5';
     $pane->panel = 'sidebar';
     $pane->type = 'block';
-    $pane->subtype = 'user-0';
+    $pane->subtype = 'user-login';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -177,7 +211,9 @@ function panels_everywhere_default_page_manager_handlers() {
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
@@ -187,7 +223,7 @@ function panels_everywhere_default_page_manager_handlers() {
     $pane->pid = 'new-6';
     $pane->panel = 'sidebar';
     $pane->type = 'block';
-    $pane->subtype = 'user-1';
+    $pane->subtype = 'system-navigation';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -195,14 +231,18 @@ function panels_everywhere_default_page_manager_handlers() {
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 1;
     $display->content['new-6'] = $pane;
     $display->panels['sidebar'][1] = 'new-6';
+  $display->hide_title = PANELS_TITLE_PANE;
+  $display->title_pane = 'new-2';
   $handler->conf['display'] = $display;
-  $handlers['site_template_panel_context'] = $handler;
+  $handlers[$handler->name] = $handler;
 
  return $handlers;
 }
