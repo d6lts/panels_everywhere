@@ -32,7 +32,7 @@ Step 2
 Enable Panels Everywhere. If not using UID 1, be sure the user you're using
 has 'administer page manager' privileges.
 
-Navigate to Administer >> Site building >> Panels >> Settings >> Everywhere.
+Navigate to Administer >> Structure >> Panels >> Settings >> Everywhere.
 
 Check the box to enable the site template. 
 
@@ -44,7 +44,7 @@ to handle page duties.
 
 Step 3
 ------
-Navigate to Administer >> Site Building >> Pages and edit the site_template
+Navigate to Administer >> Structure >> Pages and edit the site_template
 (Default site template) page.
 
 Edit your new variant. Customize it if you like. There are some very
@@ -81,7 +81,7 @@ core = 7.x
 stylesheets[all][] = blank.css
 engine = phptemplate
 
-3) Visit Administer >> Site building >> Themes and change your theme to the
+3) Visit Administer >> Appearance and change your theme to the
    blank theme.
 
 Step 5

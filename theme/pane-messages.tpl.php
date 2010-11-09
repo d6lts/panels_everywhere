@@ -17,7 +17,7 @@
  */
  ?>
 <?php if (!empty($tabs)): ?>
-  <div class="tabs"><?php print $tabs; ?></div>
+  <div class="tabs"><?php print render($tabs); ?></div>
 <?php endif; ?>
 <?php if ($action_links): ?>
   <ul class="action-links">
