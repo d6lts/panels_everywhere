@@ -323,14 +323,14 @@ function panels_everywhere_variant_template_submit(&$form, &$form_state) {
  * When a Page Manager page is rendered, set the selected site template
  * if it has been chosen.
  */
-function panels_everywhere_ctools_render_alter($info, $page, $args, $contexts, $task, $subtask, $handler) {
-  if ($task['name'] == 'site_template') {
+function panels_everywhere_ctools_render_alter($info, $page, $context) {
+  if ($context['task']['name'] == 'site_template') {
     // Make sure the handler actually used is available later on.
-    $info['handler'] = $handler;
+    $info['handler'] = $context['handler'];
     return;
   }
 
-  if (!empty($handler->conf['panels_everywhere_site_template'])) {
-    panels_everywhere_set_site_template($handler->conf['panels_everywhere_site_template']);
+  if (!empty($context['handler']->conf['panels_everywhere_site_template'])) {
+    panels_everywhere_set_site_template($context['handler']->conf['panels_everywhere_site_template']);
   }
 }
