@@ -1,4 +1,3 @@
-; $Id$
 name = Panels everywhere
 description = Allow your site to use Panels instead of Blocks to lay out your pages.
 package = "Panels"

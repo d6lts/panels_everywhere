@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * Define the task plugin.
