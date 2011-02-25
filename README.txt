@@ -1,4 +1,3 @@
-$Id$
 
 Panels Everywhere is an advanced method to completely do away with Drupal's
 restrictive blocks system and instead use the much more freeing Panels Layout
