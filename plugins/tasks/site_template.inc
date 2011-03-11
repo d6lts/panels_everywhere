@@ -137,7 +137,7 @@ function panels_everywhere_site_template_add_context(&$contexts, &$context, $ide
 function _panels_everywhere_find_context($contexts, $type) {
   $list = ctools_context_filter($contexts, new ctools_context_required('', $type));
   if ($list) {
-    return drupal_clone(array_shift($list));
+    return clone(array_shift($list));
   }
 
   return ctools_context_create_empty($type);
