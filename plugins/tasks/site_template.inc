@@ -184,7 +184,7 @@ function _panels_everywhere_find_user_context() {
 
 function _panels_everywhere_find_term_context() {
   if (arg(0) == 'taxonomy' && arg(1) == 'term' && is_numeric(arg(2))) {
-    return taxonomy_get_term(arg(2));
+    return taxonomy_term_load(arg(2));
   }
 }
 
