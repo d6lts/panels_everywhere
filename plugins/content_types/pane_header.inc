@@ -27,7 +27,7 @@ function panels_everywhere_pane_header_content_type_render($subtype, $conf, $pan
 }
 
 function panels_everywhere_pane_header_content_type_admin_info($subtype, $conf) {
-  $block = new sdtClass();
+  $block = new stdClass();
   $block->title = t('Page header elements');
   $block->content = t('By default, this pane will contain the site name, logo and search box. Its actual contents can be easily themed by editing pane-header.tpl.php in the site theme.');
   return $block;
