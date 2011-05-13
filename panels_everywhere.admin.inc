@@ -20,7 +20,6 @@ function panels_everywhere_settings_page() {
     '#type' => 'checkbox',
     '#default_value' => variable_get('panels_everywhere_provide_sample', FALSE),
     '#description' => t('If checked, the site template in the page administration will come with a sample variant pre-created with the minimal options, to help get you started faster. It is recommended you use this on a new installation, and once you are comfortable with Panels Everywhere, you can turn this off again to get it out of the way.'),
-    '#process' => array('ctools_dependent_process'),
     '#dependency' => array('edit-panels-everywhere-site-template-enabled' => array(1)),
   );
 
@@ -29,7 +28,6 @@ function panels_everywhere_settings_page() {
     '#type' => 'checkbox',
     '#default_value' => variable_get('panels_everywhere_site_template_per_theme', FALSE),
     '#description' => t('This setting lets you choose which themes are overridden by Panels Everywhere.'),
-    '#process' => array('ctools_dependent_process'),
     '#dependency' => array('edit-panels-everywhere-site-template-enabled' => array(1)),
   );
 
@@ -38,7 +36,6 @@ function panels_everywhere_settings_page() {
     '#type' => 'checkbox',
     '#default_value' => variable_get('panels_everywhere_site_template_enabled_admin', FALSE),
     '#description' => t('This will also enable the site template for your admin theme. Note that if your admin theme is the same as your site theme, the site_template will be used regardless of this setting. If you do not wish to use the site_template with your admin theme, you must select a different admin theme at administer >> site configuration >> administration theme.'),
-    '#process' => array('ctools_dependent_process'),
     '#dependency' => array('edit-panels-everywhere-site-template-per-theme' => array(0),
                            'edit-panels-everywhere-site-template-enabled' => array(1)),
     '#dependency_count' => 2,
@@ -53,7 +50,6 @@ function panels_everywhere_settings_page() {
         '#type' => 'checkbox',
         '#title' => t($theme->info['name']),
         '#default_value' => variable_get('panels_everywhere_override_theme_' . $theme->name, FALSE),
-        '#process' => array('ctools_dependent_process'),
         '#dependency' => array('edit-panels-everywhere-site-template-enabled' => array(1),
                                'edit-panels-everywhere-site-template-per-theme' => array(1)),
         '#dependency_count' => 2,
