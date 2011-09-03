@@ -18,13 +18,13 @@
  ?>
 <div id="navigation" class="menu <?php if (!empty($main_menu)) { print "withprimary"; } if (!empty($secondary_menu)) { print " withsecondary"; } ?> ">
   <?php if (!empty($main_menu)): ?>
-    <div id="primary" class="clear-block">
+    <div id="primary" class="clearfix">
       <?php print $main_menu; ?>
     </div>
   <?php endif; ?>
 
   <?php if (!empty($secondary_menu)): ?>
-    <div id="secondary" class="clear-block">
+    <div id="secondary" class="clearfix">
       <?php print $secondary_menu; ?>
     </div>
   <?php endif; ?>
