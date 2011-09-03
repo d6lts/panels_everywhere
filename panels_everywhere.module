@@ -303,19 +303,6 @@ function panels_everywhere_ctools_plugin_api($module, $api) {
 }
 
 /**
- * Drupal has a bug that causes theme file includes to get lost. However,
- * it is really convenient to have preprocess functions separated out
- * so that they 1) don't load code when unnecessary and 2) are easy to
- * find for non-developers.
- *
- * Until this bug http://drupal.org/node/591804 is fixed, we must have
- * this include.
- */
-function panels_everywhere_init() {
-  ctools_include('theme', 'panels_everywhere', 'theme');
-}
-
-/**
  * Callback to edit our site template.
  *
  * This is just a pass-through that allows us to add a special tab to make
