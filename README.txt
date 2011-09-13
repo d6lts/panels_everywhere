@@ -11,11 +11,6 @@ not really designed for this kind of behavior.
 Getting Started
 ===============
 
-Be sure that you have a version of Chaos Tools Suite newer than 12-28-2009 -- 
-this is either the current -dev or CTools 1.3 if it is out. At the time of 
-this writing, CTools 1.3 has not yet been released, so you will need to use
-a -dev version (or from CVS).
-
 Step 1
 ------
 
@@ -31,7 +26,7 @@ Step 2
 Enable Panels Everywhere. If not using UID 1, be sure the user you're using
 has 'administer page manager' privileges.
 
-Navigate to Administer >> Structure >> Panels >> Settings >> Everywhere.
+Navigate to Structure >> Panels >> Settings >> Everywhere.
 
 Check the box to enable the site template. 
 
@@ -41,9 +36,12 @@ You may check the box to override the page template, but only if you either
 enable the sample variant, or have already created a site template variant
 to handle page duties.
 
+If you're still experimenting with Panels Everywhere, you can also enable it on
+a theme by theme basis, making it easy to switch back and forth.
+
 Step 3
 ------
-Navigate to Administer >> Structure >> Pages and edit the site_template
+Navigate to Structure >> Pages and edit the site_template
 (Default site template) page.
 
 Edit your new variant. Customize it if you like. There are some very
@@ -80,8 +78,7 @@ core = 7.x
 stylesheets[all][] = blank.css
 engine = phptemplate
 
-3) Visit Administer >> Appearance and change your theme to the
-   blank theme.
+3) Visit Appearance and change your theme to the blank theme.
 
 Step 5
 ------
@@ -126,6 +123,10 @@ see if the "Managed page" context exists.
 If you have a lot of different site templates or pages that include their own
 navigation, you can also consider using Mini Panels to create common navigation 
 sidebars for easier maintenance.
+
+If you don't want to create your own layouts, you can also check the Panels
+Everywhere project page for an up to date list of themes working with Panels
+Everywhere.
 
 Contexts
 ========
