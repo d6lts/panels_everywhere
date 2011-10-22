@@ -17,7 +17,7 @@ function theme_panels_everywhere_page($vars) {
 
   $content = new stdClass();
   $content->title = drupal_get_title();
-  $content->content = $page['content'];
+  $content->content = isset($page['content']) ? $page['content'] : '';
 
   $args = array($content);
   $contexts = ctools_context_handler_get_task_contexts($task, '', $args);
