@@ -10,6 +10,8 @@ Take advantage of changes in CTools to allow Panels Everywhere to get more
 #2074225 by fubhy: Arguments to drupal_alter hooks must be by reference.
 #1866614 by camil.bancioiu: Arguments to drupal_alter hooks must be by
   reference.
+#906436 by mcpuddin, sleeping_at-work: "Override the page template" could not
+  be disabled.
 
 Panels Everywhere 6.x-1.1, 2010-Jul-26
 --------------------------------------

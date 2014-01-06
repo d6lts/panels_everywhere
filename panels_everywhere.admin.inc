@@ -57,9 +57,7 @@ function panels_everywhere_settings_page() {
     '#default_value' => variable_get('panels_everywhere_site_template_per_theme', FALSE),
     '#description' => t('This setting lets you choose which themes are overridden by Panels Everywhere.'),
     '#process' => array('ctools_dependent_process'),
-    '#dependency' => array('edit-panels-everywhere-override-page-tpl' => array(1),
-                           'edit-panels-everywhere-site-template-enabled' => array(1)),
-    '#dependency_count' => 2,
+    '#dependency' => array('edit-panels-everywhere-site-template-enabled' => array(1)),
   );
 
   $themes = system_theme_data();
@@ -70,10 +68,11 @@ function panels_everywhere_settings_page() {
       '#title' => t($theme->info['name']),
       '#default_value' => variable_get('panels_everywhere_override_theme_' . $theme->name, FALSE),
       '#process' => array('ctools_dependent_process'),
-      '#dependency' => array('edit-panels-everywhere-override-page-tpl' => array(1),
-                             'edit-panels-everywhere-site-template-enabled' => array(1),
-                             'edit-panels-everywhere-site-template-per-theme' => array(1)),
-      '#dependency_count' => 3
+      '#dependency' => array(
+        'edit-panels-everywhere-site-template-enabled' => array(1),
+        'edit-panels-everywhere-site-template-per-theme' => array(1),
+      ),
+      '#dependency_count' => 2
     );
   }
 
