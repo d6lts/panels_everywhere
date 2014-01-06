@@ -84,7 +84,7 @@ function panels_everywhere_should_override_theme() {
  * This is the magic of this module, which allows us to completely override
  * how pages are output.
  */
-function panels_everywhere_theme_registry_alter($registry) {
+function panels_everywhere_theme_registry_alter(&$registry) {
   if (!panels_everywhere_should_override_theme())
     return;
 
