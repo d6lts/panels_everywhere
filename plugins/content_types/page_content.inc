@@ -43,6 +43,7 @@ function panels_everywhere_page_content_content_type_edit_form(&$form, &$form_st
 }
 
 function panels_everywhere_page_content_content_type_admin_info($subtype, $conf, $context) {
+  $block = new stdClass();
   $block->title = t('Main page content');
   $block->content = t('This will contain the content of page being viewed. In order to get the page title to be used as a Panel title, it is recommended that you set the "Title type" to "From pane" and then check "Panel title" in the dropdown menu for this pane.');
   return $block;

@@ -6,6 +6,7 @@ Take advantage of changes in CTools to allow Panels Everywhere to get more
   See README.txt.
 #872260 by NigelCunningham: Allow Panels Everywhere page template takeover on a
   per theme basis.
+#1089460 by camil.bancioiu: Define StdClass objects before using them.
 
 Panels Everywhere 6.x-1.1, 2010-Jul-26
 --------------------------------------

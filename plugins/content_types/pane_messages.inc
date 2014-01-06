@@ -27,6 +27,7 @@ function panels_everywhere_pane_messages_content_type_render($subtype, $conf, $p
 }
 
 function panels_everywhere_pane_messages_content_type_admin_info($subtype, $conf) {
+  $block = new stdClass();
   $block->title = t('Page messages, tabs and help');
   $block->content = t('A general page messages block that includes tabs, messages and help. It is normally placed in the same region as your content. This can be easily modified by overriding pane-messages.tpl.php in your theme.');
   return $block;
