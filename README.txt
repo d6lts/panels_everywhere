@@ -216,6 +216,37 @@ Panels Everywhere modifies the global themes list in order to do its magic. If
 the original theme list data is needed it may be obtained from panels_everywhere_get_list_themes_copy().
 
 
+Tips & Tricks
+------------------------------------------------------------------------------
+It is recommended to only enable Panels Everywhere for the theme used for the
+public site and to not enable it for the admin theme.
+
+Ensure that the "Page content" pane is added to every PE variant before saving
+creation of a PE variant, this will help avoid locking out the admin from being
+able to do anything.
+
+
+Troubleshooting
+------------------------------------------------------------------------------
+The "Page content" pane must be added to the page, otherwise it's possible to
+"lock out" the admin - if there's no way to see the admin settings thre's no
+way to disable the module. If the site happens to be "locked out", the following
+steps may help:
+  * Delete the 'panels_everywhere_site_template_enabled' variable from the
+    database' {variable} table or via Drush:
+      drush vdel -y panels_everywhere_site_template_enabled
+  * Load up the Panels Everywhere settings page:
+      admin/structure/panels/settings/everywhere
+  * Limit PE to only the theme used for visitors, do not enable it for the
+    site's admin theme.
+  * Save the settings.
+  * Go to the Panels Everywhere section of the Page Manager admin:
+      admin/structure/pages/edit/site_template
+  * Go to the "Content" section of the new variant.
+  * Add the "Page content" pane to the page.
+  * Update and save the variant.
+
+
 Credits / Contact
 ------------------------------------------------------------------------------
 Currently maintained by Damien McKenna [1]. Originally written by Earl Miles
