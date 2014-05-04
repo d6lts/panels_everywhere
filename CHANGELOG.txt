@@ -1,5 +1,6 @@
 Panels Everywhere 7.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
+#1850050 by jherencia: Make original theme list data available.
 #1687872 by DamienMcKenna, exiled_hammer: Don't theme the navigation menus if
   there's nothing to output.
 #1678138 by anon: Use new CTools function for outputting the action links.

@@ -125,6 +125,9 @@ function panels_everywhere_page_build(&$page) {
     // Ensure the list of themes is built.
     $themes = list_themes();
 
+    // Set theme list before overwritten.
+    panels_everywhere_set_list_themes_copy($themes);
+
     // Get the real list so we can modify it.
     $list = &drupal_static('list_themes', array());
 
@@ -132,6 +135,21 @@ function panels_everywhere_page_build(&$page) {
     // render anything not in this regions list.
     $list[$theme]->info['regions'] = array();
   }
+}
+
+/**
+ * Get theme list before overwritten.
+ */
+function panels_everywhere_get_list_themes_copy() {
+  return drupal_static('panels_everywhere_set_list_themes_copy', array());
+}
+
+/**
+ * Set theme list before overwritten.
+ */
+function panels_everywhere_set_list_themes_copy($list) {
+  $list_reference = &drupal_static(__FUNCTION__, array());
+  $list_reference = $list;
 }
 
 // ---------------------------------------------------------------------------
