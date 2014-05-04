@@ -1,5 +1,6 @@
 Panels Everywhere 6.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
+#1230100 by DamienMcKenna: Don't allow the IPE be used with site templates.
 #1266214 by DamienMcKenna: Delete all custom variables on uninstall.
 #2241889 by DamienMcKenna: Added some troubleshooting tips for recovering should
   the 'Page content' pane not be added to the display and the site effectively

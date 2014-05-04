@@ -30,3 +30,31 @@ function panels_everywhere_uninstall() {
 function panels_everywhere_uninstall_sort_themes_by_info_name($a, $b) {
   return strcasecmp($a->info['name'], $b->info['name']);
 }
+
+/**
+ * Implementations of hook_update_N().
+ */
+
+/**
+ * The site_template variants should not use the IPE, so change them to use the
+ * standard render pipeline.
+ */
+function panels_everywhere_update_6100() {
+  $table = 'page_manager_handlers';
+  $handlers = db_query("SELECT * FROM {" . $table . "} WHERE task = 'site_template'");
+  $converted = 0;
+  while ($handler = db_fetch_object($handlers)) {
+    if (!empty($handler->conf)) {
+      $handler->conf = unserialize($handler->conf);
+      if (is_array($handler->conf) && isset($handler->conf['pipeline']) && $handler->conf['pipeline'] == 'ipe') {
+        $handler->conf['pipeline'] = 'standard';
+        drupal_write_record($table, $handler, array('did'));
+        $converted++;
+        drupal_set_message(t('Converted the @display site template to use the standard renderer.', array('@display' => $handler->conf['title'])));
+      }
+    }
+  }
+  if (empty($converted)) {
+    drupal_set_message(t('No Panels Everywhere displays needed to have their settings updated.'));
+  }
+}
