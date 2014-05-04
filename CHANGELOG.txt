@@ -1,3 +1,35 @@
 Panels Everywhere 7.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
-Initial port to Drupal 7.
+By DamienMcKenna: README.txt and CHANGELOG.txt updates.
+
+
+Panels Everywhere 7.x-1.0-rc1, 2012-04-22
+-----------------------------------------
+#1528424 by jherencia: Panels Everywhere needs to drupal_render() content
+  sometimes.
+By jherencia: Adding an isset check to avoid notices on empty pages.
+
+
+Panels Everywhere 7.x-1.0-beta1, 2011-09-13
+-------------------------------------------
+Minor updates to the README file, mostly to make it more updated to D7.
+Altering two old D6 clear-block's to D7 clearfix's.
+#1196710 by Kars-T: local tasks are not rendered.
+
+
+Panels Everywhere 7.x-1.0-alpha1, 2011-05-13
+--------------------------------------------
+#1089860 by Letharion: Saving the settings on the everywhere admin page.
+By Letharion: Pushed too soon. Fixing spelling mistake.
+By Letharion: Two strict warning fixes.
+By Letharion: Removing use of old taxonomy_get_term in favor of
+  taxononmy_term_load, the old function is no more in D7.
+By Letharion: Strict warning fix.
+By Letharion: Replacing a left over call to drupal_clone() with just clone().
+#1089460 by Letharion: Fix strict warning in pane messages content type.
+By merlinofchaos: Make sure tabs are rendered.
+By merlinofchaos: Update for fixes to hook_ctools_render_alter.
+By merlinofchaos: Page template no longer used in PE D7.
+By merlinofchaos: Significant cleanup.
+By merlinofchaos: Fix header pane to at least not totally suck with Bartik.
+By merlinofchaos: Initial port to Drupal 7.
