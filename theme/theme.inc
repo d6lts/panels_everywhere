@@ -21,7 +21,8 @@ function template_preprocess_pane_messages(&$vars) {
 }
 
 function template_preprocess_pane_navigation(&$vars) {
-  $vars['primary_links'] = menu_primary_links();
-  $vars['secondary_links'] = menu_secondary_links();
+  // Adhere to the theme's settings for the navigation bar.
+  $vars['primary_links'] = theme_get_setting('toggle_primary_links') ? menu_primary_links() : array();
+  $vars['secondary_links'] = theme_get_setting('toggle_secondary_links') ? menu_secondary_links() : array();
   $vars['breadcrumb'] = theme('breadcrumb', drupal_get_breadcrumb());
 }
