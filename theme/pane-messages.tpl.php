@@ -5,11 +5,13 @@
  * Theme implementation to display the messages area, which is normally
  * included roughly in the content area of a page.
  *
- * This utilizes the following variables thata re normally found in
+ * This utilizes the following variables that are normally found in
  * page.tpl.php:
  * - $tabs
  * - $messages
  * - $help
+ * The $action_links is loaded from CTools and is a cleaned up version of the
+ * core functionality.
  *
  * Additional items can be added via theme_preprocess_pane_messages(). See
  * template_preprocess_pane_messages() for examples.
@@ -18,10 +20,6 @@
 <?php if (!empty($tabs)): ?>
   <div class="tabs"><?php print render($tabs); ?></div>
 <?php endif; ?>
-<?php if ($action_links): ?>
-  <ul class="action-links">
-    <?php print render($action_links); ?>
-  </ul>
-<?php endif; ?>
+<?php print $action_links; ?>
 <?php print $messages; ?>
 <?php print $help; ?>
