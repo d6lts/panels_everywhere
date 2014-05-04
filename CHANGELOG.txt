@@ -1,5 +1,6 @@
 Panels Everywhere 7.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
+#967690 by jwilson3: Don't output the tabs if there are none.
 #1230100 by DamienMcKenna: Don't allow the IPE be used with site templates.
 #1550294 by logaritmisk: Load the correct context on term_view page_manager
   pages.

@@ -17,7 +17,7 @@
  * template_preprocess_pane_messages() for examples.
  */
  ?>
-<?php if (!empty($tabs)): ?>
+<?php if (!empty($tabs) && (!empty($tabs['#primary']) || !empty($tabs['#secondary']))): ?>
   <div class="tabs"><?php print render($tabs); ?></div>
 <?php endif; ?>
 <?php print $action_links; ?>
