@@ -12,6 +12,8 @@ not really designed for this kind of behavior.
 
 Getting Started
 ------------------------------------------------------------------------------
+Panels Everywhere requires CTools and Panels be installed, the latest stable
+releases of each should be used.
 
 Step 1
 ------
