@@ -1,5 +1,6 @@
 Panels Everywhere 7.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
+#1918756 by lpalgarvio: Removed some extra remnants of the defunct search box.
 #2030157 by DamienMcKenna: Removed the search_box header variable, it's no
   longer supported by D7 core.
 #1363378 by tim.plunkett: Allow menus to be controlled by theme settings.
