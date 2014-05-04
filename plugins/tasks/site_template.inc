@@ -60,7 +60,7 @@ function panels_everywhere_site_template_get_base_contexts($task, $subtask, $pla
     $alias = ctools_context_create_empty('string');
     $node = ctools_context_create_empty('node');
     $account = ctools_context_create_empty('user');
-    $term = ctools_context_create_empty('term');
+    $term = ctools_context_create_empty('entity:taxonomy_term');
   }
   else {
     $page = page_manager_get_current_page();
@@ -80,7 +80,7 @@ function panels_everywhere_site_template_get_base_contexts($task, $subtask, $pla
         $account = ctools_context_create_empty('user');
       }
 
-      $term = _panels_everywhere_find_context($page['contexts'], 'term');
+      $term = _panels_everywhere_find_context($page['contexts'], 'entity:taxonomy_term');
     }
     else {
       // Attempt to drive our basic contexts from the environemnt if we are
@@ -96,7 +96,7 @@ function panels_everywhere_site_template_get_base_contexts($task, $subtask, $pla
 
       // Now try to find a term.
       $raw_term = _panels_everywhere_find_term_context();
-      $term = (!empty($raw_term)) ? ctools_context_create('term', $raw_term) : ctools_context_create_empty('term');
+      $term = (!empty($raw_term)) ? ctools_context_create('entity:taxonomy_term', $raw_term) : ctools_context_create_empty('entity:taxonomy_term');
     }
   }
 
