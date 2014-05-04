@@ -11,7 +11,13 @@ function template_preprocess_pane_header(&$vars) {
   $vars['site_slogan'] = (theme_get_setting('toggle_slogan') ? filter_xss_admin(variable_get('site_slogan', '')) : '');
   $vars['front_page'] = url();
   $vars['logo'] = theme_get_setting('logo');
-  $vars['search_box'] = (theme_get_setting('toggle_search') ? drupal_get_form('search_theme_form') : '');
+
+  // Only load the search box if the Search module is enabled and the search box
+  // is enabled in the theme settings.
+  $vars['search_box'] = '';
+  if (module_exists('search') && theme_get_setting('toggle_search')) {
+    $vars['search_box'] =  drupal_get_form('search_theme_form');
+  }
 }
 
 function template_preprocess_pane_messages(&$vars) {

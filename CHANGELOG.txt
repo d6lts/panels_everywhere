@@ -1,5 +1,7 @@
 Panels Everywhere 6.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
+#2030157 by DamienMcKenna: Only load the search_box form in the header pane if
+  the Search module is enabled.
 By DamienMcKenna: README.txt and CHANGELOG.txt updates.
 #906436 by mcpuddin, sleeping_at-work: "Override the page template" could not
   be disabled.
