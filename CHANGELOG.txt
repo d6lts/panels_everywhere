@@ -1,48 +1,55 @@
 Panels Everywhere 6.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
-Take advantage of changes in CTools to allow Panels Everywhere to get more
-  context.
-#885848: Better communication with the theme when a site template is in use.
-  See README.txt.
-#872260 by NigelCunningham: Allow Panels Everywhere page template takeover on a
-  per theme basis.
-#1089460 by camil.bancioiu: Define StdClass objects before using them.
-#2074225 by fubhy: Arguments to drupal_alter hooks must be by reference.
-#1866614 by camil.bancioiu: Arguments to drupal_alter hooks must be by
-  reference.
+By DamienMcKenna: README.txt and CHANGELOG.txt updates.
 #906436 by mcpuddin, sleeping_at-work: "Override the page template" could not
   be disabled.
+#1866614 by camil.bancioiu: Arguments to drupal_alter hooks must be by
+  reference.
+#2074225 by fubhy: Arguments to drupal_alter hooks must be by reference.
+#1089460 by camil.bancioiu: Define StdClass objects before using them.
+#872260 by NigelCunningham: Allow Panels Everywhere page template takeover on a
+  per theme basis.
+#885848 by merlinofchaos: Better communication with the theme when a site
+  template is in use. See README.txt.
+By merlinofchaos: Take advantage of changes in CTools to allow Panels
+  Everywhere to get more context.
+
 
 Panels Everywhere 6.x-1.1, 2010-Jul-26
 --------------------------------------
-Don't use so many tokens when rendering page elements.
-#784812: Don't override module page preprocesses so harshly.
-#805180: Allow pages to select their template directly rather than going
-  through variant rules. Works only with CTools 1.5.
-Make sure the "Edit panel" tab says "Edit site template" for the site template.
-  Works only with CTools 1.7.
+By merlinofchaos: Make sure the "Edit panel" tab says "Edit site template" for
+  the site template. Works only with CTools 1.7.
+#805180 by merlinofchaos: Allow pages to select their template directly rather
+  than going hrough variant rules. Works only with CTools 1.5.
+#784812 by merlinofchaos: Don't override module page preprocesses so harshly.
+By merlinofchaos: Don't use so many tokens when rendering page elements.
+
 
 Panels Everywhere 6.x-1.0, 2010-Feb-01
 --------------------------------------
-#680834: theme.inc include gets lost in theme registry due to Drupal bug.
-  Include theme.inc automatically to compensate.
-Add a checkbox to allow the admin theme to get Panels Everywhere applied
-  separately.
+#680834 by merlinofchaos: theme.inc include gets lost in theme registry due to
+  Drupal bug. Include theme.inc automatically to compensate.
+By merlinofchaos: Add a checkbox to allow the admin theme to get Panels
+  Everywhere applied separately.
+
 
 Panels Everywhere 6.x-1.0-beta1, 2010-Jul-26
 --------------------------------------------
-Initial commit to CVS
-#674222: README.txt missed "engine = phptemplate" line for the blank.info --
-  this is needed so the blank theme can have templates.
-Make sure that page manager edit screens are NOT run through layouts in case of
-  catastrophic configuration of the site_template.
-#679206: Using the setting to hide Drupal blocks/regions would cause
-  theme('page') to loop infinitely resulting in either bad HTML or whitescreens.
-Add some descriptive info text to the content types we offer to help introduce
-  people to what will be IN the content and how they can theme them.
-Update the README to include instructions on setting the page title to set from
-  the page content pane.
-Breadcrumb did not display properly in pane navigation due to error in
-  theme.inc.
-#679252: Create a sample variant and include it with Panels Everywhere, with an
-  easy setting to make it go away after it is no longer needed.
+#679252 by merlinofchaos: Create a sample variant and include it with Panels
+  Everywhere, with an easy setting to make it go away after it is no longer
+  needed.
+By merlinofchaos: Breadcrumb did not display properly in pane navigation due to
+  error in theme.inc.
+By merlinofchaos: Update the README to include instructions on setting the page
+  title to set from the page content pane.
+By merlinofchaos: Add some descriptive info text to the content types we offer
+  to help introduce people to what will be IN the content and how they can
+  theme them.
+#679206 by merlinofchaos: Using the setting to hide Drupal blocks/regions would
+  cause theme('page') to loop infinitely resulting in either bad HTML or
+  whitescreens.
+By merlinofchaos: Make sure that page manager edit screens are NOT run through
+  layouts in case of catastrophic configuration of the site_template.
+#674222 by merlinofchaos: README.txt missed "engine = phptemplate" line for the
+  blank.info -- this is needed so the blank theme can have templates.
+By merlinofchaos: Initial commit.

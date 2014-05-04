@@ -39,6 +39,9 @@ You may check the box to override the page template, but only if you either
 enable the sample variant, or have already created a site template variant to
 handle page duties.
 
+If you're still experimenting with Panels Everywhere, you can also enable it on
+a theme by theme basis, making it easy to switch back and forth.
+
 Step 3
 ------
 Navigate to Administer >> Site Building >> Pages and edit the site_template
