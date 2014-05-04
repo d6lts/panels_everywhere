@@ -62,8 +62,9 @@ function template_process_pane_messages(&$vars) {
 }
 
 function template_preprocess_pane_navigation(&$vars) {
-  $vars['main_menu'] = menu_main_menu();
-  $vars['secondary_menu'] = menu_secondary_menu();
+  // Adhere to the theme's settings for the navigation bar.
+  $vars['main_menu'] = theme_get_setting('toggle_main_menu') ? menu_main_menu() : array();
+  $vars['secondary_menu'] = theme_get_setting('toggle_secondary_menu') ? menu_secondary_menu() : array();
 }
 
 function template_process_pane_navigation(&$vars) {
