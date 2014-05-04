@@ -1,5 +1,6 @@
 Panels Everywhere 6.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
+#1918756 by lpalgarvio: Removed a duplicate $front_page from the header tpl.
 #2030157 by DamienMcKenna: Only load the search_box form in the header pane if
   the Search module is enabled.
 By DamienMcKenna: README.txt and CHANGELOG.txt updates.
