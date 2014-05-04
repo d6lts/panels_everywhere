@@ -1,7 +1,7 @@
 Panels Everywhere 7.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
-By DamienMcKenna: README.txt and CHANGELOG.txt updates.
 #1363378 by tim.plunkett: Allow menus to be controlled by theme settings.
+By DamienMcKenna: README.txt and CHANGELOG.txt updates.
 
 
 Panels Everywhere 7.x-1.0-rc1, 2012-04-22
