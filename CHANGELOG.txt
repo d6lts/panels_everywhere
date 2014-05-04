@@ -1,5 +1,7 @@
 Panels Everywhere 7.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
+#1687872 by DamienMcKenna, exiled_hammer: Don't theme the navigation menus if
+  there's nothing to output.
 #1678138 by anon: Use new CTools function for outputting the action links.
 #1918756 by lpalgarvio: Removed some extra remnants of the defunct search box.
 #2030157 by DamienMcKenna: Removed the search_box header variable, it's no
