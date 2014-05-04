@@ -25,3 +25,36 @@ function panels_everywhere_uninstall() {
   // 3. Delete records in {panels_display} with the did value identified above.
   // 3. Delete records in {panels_pane} with the did value identified above.
 }
+
+/**
+ * Implementations of hook_update_N().
+ */
+
+/**
+ * The site_template variants should not use the IPE, so change them to use the
+ * standard render pipeline.
+ */
+function panels_everywhere_update_7100() {
+  $table = 'page_manager_handlers';
+  $handlers = db_select($table, 'h')
+    ->fields('h')
+    ->condition('task', 'site_template')
+    ->execute();
+  $converted = 0;
+  if (!empty($handlers)) {
+    foreach($handlers as $handler) {
+      if (!empty($handler->conf)) {
+        $handler->conf = unserialize($handler->conf);
+        if (is_array($handler->conf) && isset($handler->conf['pipeline']) && $handler->conf['pipeline'] == 'ipe') {
+          $handler->conf['pipeline'] = 'standard';
+          drupal_write_record($table, $handler, array('did'));
+          $converted++;
+          drupal_set_message(t('Converted the @display site template to use the standard renderer.', array('@display' => $handler->conf['title'])));
+        }
+      }
+    }
+  }
+  if (empty($converted)) {
+    drupal_set_message(t('No Panels Everywhere displays needed to have their settings updated.'));
+  }
+}

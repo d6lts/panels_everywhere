@@ -1,5 +1,6 @@
 Panels Everywhere 7.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
+#1230100 by DamienMcKenna: Don't allow the IPE be used with site templates.
 #1550294 by logaritmisk: Load the correct context on term_view page_manager
   pages.
 #1985576 by jherencia: Ensure that the CTools context plugins are loaded.
