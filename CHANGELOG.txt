@@ -1,5 +1,6 @@
 Panels Everywhere 7.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
+#1985576 by jherencia: Ensure that the CTools context plugins are loaded.
 #1266214 by DamienMcKenna: Delete all custom variables on uninstall.
 #1992820 by zterry95: Fixed the arguments of hook_ctools_render_alter().
 #2241889 by DamienMcKenna: Added some troubleshooting tips for recovering should
