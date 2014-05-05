@@ -15,7 +15,7 @@
  * Additional items can be added via theme_preprocess_pane_messages(). See
  * template_preprocess_pane_messages() for examples.
  */
- ?>
+?>
 <div id="navigation" class="menu <?php if (!empty($primary_links)) { print "withprimary"; } if (!empty($secondary_links)) { print " withsecondary"; } ?> ">
   <?php if (!empty($primary_links)): ?>
     <div id="primary" class="clear-block">

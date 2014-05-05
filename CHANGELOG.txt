@@ -1,5 +1,6 @@
 Panels Everywhere 6.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
+By DamienMcKenna: Minor tidying of the tpl.php files.
 #962122 by stevector, Letharion: hook_panels_everywhere_contexts_alter was
   named incorrectly.
 By DamienMcKenna: Minor syntax adjustments in the admin form.

@@ -15,14 +15,12 @@
  * Additional items can be added via theme_preprocess_pane_header(). See
  * template_preprocess_pane_header() for examples.
  */
- ?>
+?>
 <div id="header">
   <div id="logo-title">
 
     <?php if (!empty($logo)): ?>
-      <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" id="logo">
-        <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
-      </a>
+      <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" id="logo"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" /></a>
     <?php endif; ?>
 
     <div id="name-and-slogan">

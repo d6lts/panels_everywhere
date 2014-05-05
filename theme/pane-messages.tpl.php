@@ -14,7 +14,7 @@
  * Additional items can be added via theme_preprocess_pane_messages(). See
  * template_preprocess_pane_messages() for examples.
  */
- ?>
+?>
 <?php if (!empty($tabs)): ?>
   <div class="tabs"><?php print $tabs; ?></div>
 <?php endif; ?>
