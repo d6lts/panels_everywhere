@@ -137,7 +137,7 @@ function panels_everywhere_site_template_get_base_contexts($task, $subtask, $pla
   panels_everywhere_site_template_add_context($contexts, $term, t('Taxonomy term being viewed'), 'term', 'term');
 
   // Allow other modules to also add contexts to the site template.
-  drupal_alter('page_manager_contexts', $contexts, $placeholders);
+  drupal_alter('panels_everywhere_contexts', $contexts, $placeholders);
 
   return $contexts;
 }

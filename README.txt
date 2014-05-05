@@ -158,7 +158,7 @@ Currently Panels Everywhere can find the following contexts:
     a page manager page that derives a single term context.
 
 In addition, before this is actually utilized you can use:
-  hook_panels_everywhere_contexts(&$contexts, $placeholders)
+  hook_panels_everywhere_contexts_alter(&$contexts, $placeholders)
 
 If you add contexts, use this function:
   panels_everywhere_site_template_add_context($contexts, $context, t('Human readable identifier'), 'keyword', 'internalid');
