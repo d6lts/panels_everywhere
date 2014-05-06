@@ -6,9 +6,10 @@
  *
  * This utilizes the following variables thata re normally found in
  * page.tpl.php:
- * - $front_page
  * - $logo
+ * - $front_page
  * - $site_name
+ * - $front_page
  * - $site_slogan
  * - $search_box
  *

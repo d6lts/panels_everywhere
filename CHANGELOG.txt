@@ -10,7 +10,6 @@ By DamienMcKenna: Minor syntax adjustments in the admin form.
 #2241889 by DamienMcKenna: Added some troubleshooting tips for recovering should
   the 'Page content' pane not be added to the display and the site effectively
   become inoperable.
-#1918756 by lpalgarvio: Removed a duplicate $front_page from the header tpl.
 #2030157 by DamienMcKenna: Only load the search_box form in the header pane if
   the Search module is enabled.
 By DamienMcKenna: README.txt and CHANGELOG.txt updates.
