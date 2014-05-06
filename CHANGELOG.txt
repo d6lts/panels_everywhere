@@ -17,7 +17,6 @@ By DamienMcKenna: Minor syntax adjustments in the admin form.
 #2241889 by DamienMcKenna: Added some troubleshooting tips for recovering should
   the 'Page content' pane not be added to the display and the site effectively
   become inoperable.
-#1850050 by jherencia: Make original theme list data available.
 #1687872 by DamienMcKenna, exiled_hammer: Don't theme the navigation menus if
   there's nothing to output.
 #1678138 by anon: Use new CTools function for outputting the action links.
