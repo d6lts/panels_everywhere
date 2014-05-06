@@ -77,9 +77,6 @@ function panels_everywhere_page_build(&$page) {
     return;
   }
 
-  ctools_include('context');
-  ctools_include('context-task-handler');
-
   $task = page_manager_get_task('site_template');
 
   // Test to see if something has specified that we use a specific
@@ -96,6 +93,9 @@ function panels_everywhere_page_build(&$page) {
     if (!$handlers) {
       return;
     }
+
+    ctools_include('context');
+    ctools_include('context-task-handler');
 
     // Normally the args contain the page content, but since this is just
     // choosing the handler not actually rendering it, we'll leave that
