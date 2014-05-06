@@ -5,7 +5,6 @@ By DamienMcKenna: Minor tidying of the tpl.php files.
 #962122 by stevector, Letharion: hook_panels_everywhere_contexts_alter was
   named incorrectly.
 By DamienMcKenna: Minor syntax adjustments in the admin form.
-#1255228 by EclipseGc: Don't load the sample variant if it's not wanted.
 #1230100 by DamienMcKenna: Don't allow the IPE be used with site templates.
 #1266214 by DamienMcKenna: Delete all custom variables on uninstall.
 #2241889 by DamienMcKenna: Added some troubleshooting tips for recovering should
