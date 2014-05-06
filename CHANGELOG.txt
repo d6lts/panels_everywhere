@@ -14,17 +14,12 @@ By DamienMcKenna: Minor tidying of the tpl.php files.
 By DamienMcKenna: Minor syntax adjustments in the admin form.
 #967690 by jwilson3: Don't output the tabs if there are none.
 #1230100 by DamienMcKenna: Don't allow the IPE be used with site templates.
-#1550294 by logaritmisk: Load the correct context on term_view page_manager
-  pages.
-#1985576 by jherencia: Ensure that the CTools context plugins are loaded.
 #1266214 by DamienMcKenna: Delete all custom variables on uninstall.
-#1992820 by zterry95: Fixed the arguments of hook_ctools_render_alter().
 #2241889 by DamienMcKenna: Added some troubleshooting tips for recovering should
   the 'Page content' pane not be added to the display and the site effectively
   become inoperable.
 #1687872 by DamienMcKenna, exiled_hammer: Don't theme the navigation menus if
   there's nothing to output.
-#1678138 by anon: Use new CTools function for outputting the action links.
 #2030157 by DamienMcKenna: Removed the search_box header variable, it's no
   longer supported by D7 core.
 #1363378 by tim.plunkett: Allow menus to be controlled by theme settings.
