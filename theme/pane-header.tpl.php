@@ -6,12 +6,10 @@
  *
  * This utilizes the following variables thata re normally found in
  * page.tpl.php:
+ * - $front_page
  * - $logo
- * - $front_page
  * - $site_name
- * - $front_page
  * - $site_slogan
- * - $search_box
  *
  * Additional items can be added via theme_preprocess_pane_header(). See
  * template_preprocess_pane_header() for examples.
@@ -44,8 +42,5 @@
       </div> <!-- /name-and-slogan -->
     </div> <!-- /logo-title -->
 
-    <?php if (!empty($search_box)): ?>
-      <div id="search-box"><?php print $search_box; ?></div>
-    <?php endif; ?>
   </div> <!-- /section -->
 </div> <!-- /header -->

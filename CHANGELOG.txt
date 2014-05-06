@@ -1,5 +1,6 @@
 Panels Everywhere 7.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
+#1918756 by lpalgarvio: Removed some extra remnants of the defunct search box.
 By DamienMcKenna: Minor tidying of the tpl.php files.
 #962122 by stevector, Letharion: hook_panels_everywhere_contexts_alter was
   named incorrectly.
