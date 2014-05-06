@@ -212,6 +212,10 @@ The actual template used will be in:
 and the contexts will be in:
   $vars['panels_everywhere_site_template']['contexts']
 
+Panels Everywhere modifies the global themes list in order to do its magic. If
+the original theme list data is needed it may be obtained from
+panels_everywhere_get_list_themes_copy().
+
 
 Tips & Tricks
 ------------------------------------------------------------------------------

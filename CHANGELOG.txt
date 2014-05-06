@@ -1,5 +1,6 @@
 Panels Everywhere 7.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
+#1850050 by jherencia: Make original theme list data available.
 #1678138 by anon: Use new CTools function for outputting the action links.
 #1918756 by lpalgarvio: Removed some extra remnants of the defunct search box.
 By DamienMcKenna: Minor tidying of the tpl.php files.
