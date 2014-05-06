@@ -351,10 +351,10 @@ function panels_everywhere_variant_template_submit(&$form, &$form_state) {
 /**
  * Implement hook_ctools_render_alter()
  *
- * When a Page Manager page is rendered, set the selected site template if it
- * has been chosen.
+ * When a Page Manager page is rendered, set the selected site template
+ * if it has been chosen.
  */
-function panels_everywhere_ctools_render_alter(&$info, &$page, &$context) {
+function panels_everywhere_ctools_render_alter($info, $page, $context) {
   if ($context['task']['name'] == 'site_template') {
     // Make sure the handler actually used is available later on.
     $info['handler'] = $context['handler'];
