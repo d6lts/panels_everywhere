@@ -1,5 +1,7 @@
 Panels Everywhere 6.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
+#1266214 by DamienMcKenna: hook_uninstall() now removes all site templates and
+  variables.
 #2349583 by DamienMcKenna, slv_, emattias: Don't fail if the Taxonomy module is
   not enabled.
 #1255228 by EclipseGc: Don't load the sample variant if it's not wanted.
