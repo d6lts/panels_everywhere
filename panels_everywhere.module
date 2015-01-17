@@ -285,12 +285,20 @@ function panels_everywhere_page_preprocess_elements(&$variables) {
     $head_title[] = strip_tags($page_title);
   }
 
+  // Optionally include the site name in the title.
   if (variable_get('panels_everywhere_head_title_include_name', TRUE)) {
-    $head_title[] = strip_tags(variable_get('site_name', 'Drupal'));
+    $site_name = variable_get('site_name', 'Drupal');
+    if (!empty($site_name)) {
+      $head_title[] = strip_tags(variable_get('site_name', 'Drupal'));
+    }
   }
 
-  if (!$page_title && variable_get('panels_everywhere_head_title_include_slogan', TRUE)) {
-    $head_title[] = strip_tags(variable_get('site_slogan', ''));
+  // Optionally use the site's slogan if the page title is empty.
+  if (empty($page_title) && variable_get('panels_everywhere_head_title_include_slogan', TRUE)) {
+    $site_slogan = variable_get('site_slogan', '');
+    if (!empty($site_slogan)) {
+      $head_title[] = strip_tags($site_slogan);
+    }
   }
 
   $variables['head_title']        = implode(variable_get('panels_everywhere_head_title_separator', ' | '), $head_title);

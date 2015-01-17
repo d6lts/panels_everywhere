@@ -107,7 +107,7 @@ function panels_everywhere_settings_page() {
   );
 
   $form['head_title']['panels_everywhere_head_title_include_slogan'] = array(
-    '#title' => t('Use site slogan if there is no page title'),
+    '#title' => t('Use site slogan if the page title is blank'),
     '#type' => 'checkbox',
     '#default_value' => variable_get('panels_everywhere_head_title_include_slogan', TRUE),
   );

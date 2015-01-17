@@ -9,12 +9,14 @@
  */
 function panels_everywhere_uninstall() {
   // Delete the variables.
+  variable_del('panels_everywhere_head_title_include_name');
+  variable_del('panels_everywhere_head_title_include_slogan');
+  variable_del('panels_everywhere_head_title_separator');
   variable_del('panels_everywhere_provide_sample');
   variable_del('panels_everywhere_site_template_enabled');
   variable_del('panels_everywhere_site_template_enabled_admin');
   variable_del('panels_everywhere_site_template_per_theme');
-  $themes = system_theme_data();
-  foreach ($themes as $theme) {
+  foreach (system_theme_data() as $theme) {
     variable_del('panels_everywhere_override_theme_' . $theme->name);
   }
 

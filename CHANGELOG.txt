@@ -1,5 +1,6 @@
 Panels Everywhere 6.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
+#1082010 by DamienMcKenna, mattyoung: Make head title controllable, themable.
 By DamienMcKenna: Don't repeat the 'IPE can't be used' message.
 #1266214 by DamienMcKenna: hook_uninstall() now removes all site templates and
   variables.
