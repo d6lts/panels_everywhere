@@ -67,7 +67,7 @@ function panels_everywhere_form_panels_panel_context_edit_settings_alter(&$form,
   if (isset($form_state['task_name']) && $form_state['task_name'] == 'site_template') {
     if (isset($form['conf']['pipeline']['#options']['ipe'])) {
       // unset($form['conf']['pipeline']['#options']['ipe']);
-      drupal_set_message(t('The In-Place Editor may not be used with the Site Template.'));
+      drupal_set_message(t('The In-Place Editor may not be used with the Site Template.'), 'status', FALSE);
     }
   }
 }
