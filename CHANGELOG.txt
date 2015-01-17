@@ -1,5 +1,6 @@
 Panels Everywhere 7.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
+By DamienMcKenna: Don't repeat the 'IPE can't be used' message.
 #1266214 by DamienMcKenna: hook_uninstall() now removes all site templates and
   variables.
 #2349583 by DamienMcKenna, slv_, emattias: Don't fail if the Taxonomy module is
