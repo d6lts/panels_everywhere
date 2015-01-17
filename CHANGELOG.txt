@@ -1,4 +1,4 @@
-Panels Everywhere 7.x-1.x-dev, xxxx-xx-xx
+Panels Everywhere 7.x-1.0-rc2, 2015-01-17
 -----------------------------------------
 #2408973 by DamienMcKenna: Require recent versions of CTools, Panels.
 #1082010 by DamienMcKenna, mattyoung: Make head title controllable, themable.
