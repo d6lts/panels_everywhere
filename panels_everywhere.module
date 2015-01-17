@@ -57,6 +57,9 @@ function panels_everywhere_theme() {
     'variables' => array(),
     'template' => 'pane-navigation',
   ) + $base;
+  $theme['head_title'] = array(
+    'arguments' => array(),
+  ) + $base;
 
   // Our alternative to theme('page').
   $theme['panels_everywhere_page'] = array(
