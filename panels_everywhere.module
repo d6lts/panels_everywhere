@@ -95,8 +95,8 @@ function panels_everywhere_should_override_theme() {
 /**
  * Implementation of hook_theme_registry_alter()
  *
- * This is the magic of this module, which allows us to completely override
- * how pages are output.
+ * This is the magic of this module, which allows us to completely override how
+ * pages are output.
  */
 function panels_everywhere_theme_registry_alter(&$registry) {
   if (!panels_everywhere_should_override_theme())
@@ -148,8 +148,8 @@ function panels_everywhere_theme_registry_alter(&$registry) {
  * automatically. It is controlled by an alter so that it can come first.
  */
 function panels_everywhere_page_preprocess(&$vars) {
-  // For safety reasons, do not run this on the actual page configuration
-  // pages and instead allow a more traditional output.
+  // For safety reasons, do not run this on the actual page configuration pages
+  // and instead allow a more traditional output.
   if (strpos($_GET['q'], 'admin/build/pages/nojs/operation/site_template') === 0) {
     return panels_everywhere_fallback_page($vars);
   }
@@ -178,8 +178,8 @@ function panels_everywhere_page_preprocess(&$vars) {
   $contexts = ctools_context_handler_get_task_contexts($task, '', $args);
 
   // Test to see if a site template has been specifically assigned to the
-  // current page. If so, render that variant just as though
-  // it were rendered by the access checker.
+  // current page. If so, render that variant just as though it were rendered
+  // by the access checker.
   if ($handler_name = panels_everywhere_get_site_template()) {
     // This is the "no template" variant meaning we do absolutely nothing here.
     if ($handler_name == -1) {
@@ -198,14 +198,15 @@ function panels_everywhere_page_preprocess(&$vars) {
   // If there is no $info, meaning the above had no template or the template
   // chose not to render, go through the normal process for finding one.
   if (empty($info)) {
-    // Since we're inside theme('page') we must call ctools_context_handler_render as though
-    // we don't own the page, because crazy as it sounds, we don't.
+    // Since we're inside theme('page') we must call
+    // ctools_context_handler_render as though we don't own the page, because
+    // crazy as it sounds, we don't.
     $info = ctools_context_handler_render($task, '', $contexts, $args, FALSE);
   }
 
   if ($info && !empty($info['content'])) {
-    // Because we run so early, we have to use drupal_set_title() and not
-    // just set $vars['title']. Otherwise it will get overwritten.
+    // Because we run so early, we have to use drupal_set_title() and not just
+    // set $vars['title']. Otherwise it will get overwritten.
     if (isset($info['title'])) {
       drupal_set_title($info['title']);
     }
@@ -238,8 +239,8 @@ function panels_everywhere_fallback_page(&$vars) {
 /**
  * Manually set the template to use.
  *
- * This can be used to force the page to use the specified template rather
- * than going through the access rules.
+ * This can be used to force the page to use the specified template rather than
+ * going through the access rules.
  *
  * @param $handler
  *   The name of the task handler to use.
@@ -253,8 +254,8 @@ function panels_everywhere_set_site_template($handler) {
  * Get the site template to be used.
  *
  * If the site template has been manually set via
- * panels_everywhere_set_site_template(), this function will return what it
- * was set to.
+ * panels_everywhere_set_site_template(), this function will return what it was
+ * set to.
  */
 function panels_everywhere_get_site_template() {
   return ctools_static('panels_everywhere_site_template');
@@ -263,9 +264,9 @@ function panels_everywhere_get_site_template() {
 /**
  * Preprocess variables on our stripped down page template.
  *
- * Since when we take over the page rendering mechanism, we cut core's
- * page preprocessing out of the loop, we need to replace it with our
- * own stripped down version to do just the minimum.
+ * Since when we take over the page rendering mechanism, we cut core's page
+ * preprocessing out of the loop, we need to replace it with our own stripped
+ * down version to do just the minimum.
  */
 function panels_everywhere_page_preprocess_elements(&$variables) {
   // Add favicon
@@ -327,8 +328,8 @@ function panels_everywhere_ctools_plugin_api($module, $api) {
 /**
  * Callback to edit our site template.
  *
- * This is just a pass-through that allows us to add a special tab to make
- * it easier to edit the site template.
+ * This is just a pass-through that allows us to add a special tab to make it
+ * easier to edit the site template.
  */
 function panels_everywhere_edit_site_template() {
   ctools_include('context');
@@ -337,11 +338,11 @@ function panels_everywhere_edit_site_template() {
 }
 
 /**
- * Alter the panel context settings form
+ * Alter the panel context settings form.
  */
 function panels_everywhere_page_manager_variant_operations_alter(&$operations, $handler) {
-  // Do not add this to variants on the site template, as tempaltes
-  // cannot select templates.
+  // Do not add this to variants on the site template, as tempaltes cannot
+  // select templates.
   if ($handler->task == 'site_template') {
     return;
   }
@@ -414,8 +415,8 @@ function panels_everywhere_variant_template_submit(&$form, &$form_state) {
 }
 
 /**
- * When a Page Manager page is rendered, set the selected site template
- * if it has been chosen.
+ * When a Page Manager page is rendered, set the selected site template if it
+ * has been chosen.
  */
 function panels_everywhere_ctools_render_alter(&$info, $page, $args, $contexts, $task, $subtask, $handler) {
   if ($task['name'] == 'site_template') {
