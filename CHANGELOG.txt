@@ -1,5 +1,7 @@
 Panels Everywhere 7.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
+#2349583 by DamienMcKenna, slv_, emattias: Don't fail if the Taxonomy module is
+  not enabled.
 #1959130 by tstoeckler: Didn't work if the admin theme and default theme were
   the same.
 By DamienMcKenna: Verify system message variables exist before printing them.
