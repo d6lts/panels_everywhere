@@ -1,7 +1,9 @@
 name = Panels everywhere
 description = Allow your site to use Panels instead of Blocks to lay out your pages.
 package = "Panels"
-dependencies[] = panels
-dependencies[] = page_manager
 core = 7.x
-files[] = panels_everywhere.module
+
+; Requires recent releases of both CTools and Panels.
+dependencies[] = panels (>=3.4)
+dependencies[] = ctools (>=1.4)
+dependencies[] = page_manager
