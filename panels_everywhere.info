@@ -4,6 +4,6 @@ package = "Panels"
 core = 7.x
 
 ; Requires recent releases of both CTools and Panels.
-dependencies[] = panels (>=3.4)
-dependencies[] = ctools (>=1.4)
+dependencies[] = ctools (>=1.6)
+dependencies[] = panels (>=3.5)
 dependencies[] = page_manager

@@ -1,5 +1,6 @@
 Panels Everywhere 7.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
+#2408973 by DamienMcKenna: Require the latest versions of CTools and Panels.
 
 
 Panels Everywhere 7.x-1.0-rc2, 2015-01-17
