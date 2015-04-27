@@ -32,6 +32,7 @@ By DamienMcKenna: README.txt and CHANGELOG.txt updates.
   template is in use. See README.txt.
 By merlinofchaos: Take advantage of changes in CTools to allow Panels
   Everywhere to get more context.
+#2472505 by pontus_nilsson: Remove empty access plugin.
 
 
 Panels Everywhere 6.x-1.1, 2010-Jul-26
