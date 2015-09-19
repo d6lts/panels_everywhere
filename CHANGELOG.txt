@@ -1,5 +1,6 @@
 Panels Everywhere 6.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
+#2551369 by ACF: Load the full user object when creating the user context.
 
 
 Panels Everywhere 6.x-1.2-rc1, 2015-01-17
