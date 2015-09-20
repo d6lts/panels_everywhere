@@ -247,6 +247,12 @@ steps may help:
   * Add the "Page content" pane to the page.
   * Update and save the variant.
 
+There may be situations where it appears that form field errors are not being
+displayed correctly. This is a theming issue - the site's theme's default form
+field definitions are overriding the input.error definition from the system
+module's system.theme.css file. To fix the problem, copy the necessary lines
+from the system.theme.css file to the appropriate CSS file for the custom theme.
+
 
 Credits / Contact
 ------------------------------------------------------------------------------
