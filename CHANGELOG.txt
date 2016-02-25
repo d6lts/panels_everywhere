@@ -1,5 +1,5 @@
-Panels Everywhere 6.x-1.x-dev, xxxx-xx-xx
------------------------------------------
+Panels Everywhere 6.x-1.2, 2016-02-25
+-------------------------------------
 #2551369 by ACF: Load the full user object when creating the user context.
 #2305533 by DamienMcKenna: Documented theming problem with form field errors.
 
