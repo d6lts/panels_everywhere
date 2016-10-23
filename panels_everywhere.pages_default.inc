@@ -217,6 +217,29 @@ function panels_everywhere_default_page_manager_handlers() {
   $display->content['new-00309a3f-2206-481d-bf6d-4bde965688c7'] = $pane;
   $display->panels['header'][1] = 'new-00309a3f-2206-481d-bf6d-4bde965688c7';
   $pane = new stdClass();
+  $pane->pid = 'new-d7888fba-06bb-4a7a-bd67-9f418c64d4a7';
+  $pane->panel = 'sidebar';
+  $pane->type = 'block';
+  $pane->subtype = 'search-form';
+  $pane->shown = TRUE;
+  $pane->access = array();
+  $pane->configuration = array(
+    'override_title' => 0,
+    'override_title_text' => '',
+    'override_title_heading' => 'h2',
+  );
+  $pane->cache = array();
+  $pane->style = array(
+    'settings' => NULL,
+  );
+  $pane->css = array();
+  $pane->extras = array();
+  $pane->position = 0;
+  $pane->locks = array();
+  $pane->uuid = 'd7888fba-06bb-4a7a-bd67-9f418c64d4a7';
+  $display->content['new-d7888fba-06bb-4a7a-bd67-9f418c64d4a7'] = $pane;
+  $display->panels['sidebar'][0] = 'new-d7888fba-06bb-4a7a-bd67-9f418c64d4a7';
+  $pane = new stdClass();
   $pane->pid = 'new-25d4ff2c-197f-4849-843c-b3e73134c4e7';
   $pane->panel = 'sidebar';
   $pane->type = 'block';
@@ -233,11 +256,11 @@ function panels_everywhere_default_page_manager_handlers() {
   );
   $pane->css = array();
   $pane->extras = array();
-  $pane->position = 0;
+  $pane->position = 1;
   $pane->locks = '';
   $pane->uuid = '25d4ff2c-197f-4849-843c-b3e73134c4e7';
   $display->content['new-25d4ff2c-197f-4849-843c-b3e73134c4e7'] = $pane;
-  $display->panels['sidebar'][0] = 'new-25d4ff2c-197f-4849-843c-b3e73134c4e7';
+  $display->panels['sidebar'][1] = 'new-25d4ff2c-197f-4849-843c-b3e73134c4e7';
   $pane = new stdClass();
   $pane->pid = 'new-7aa99e81-8eca-4507-89fc-0188cb996d2d';
   $pane->panel = 'sidebar';
@@ -255,11 +278,11 @@ function panels_everywhere_default_page_manager_handlers() {
   );
   $pane->css = array();
   $pane->extras = array();
-  $pane->position = 1;
+  $pane->position = 2;
   $pane->locks = '';
   $pane->uuid = '7aa99e81-8eca-4507-89fc-0188cb996d2d';
   $display->content['new-7aa99e81-8eca-4507-89fc-0188cb996d2d'] = $pane;
-  $display->panels['sidebar'][1] = 'new-7aa99e81-8eca-4507-89fc-0188cb996d2d';
+  $display->panels['sidebar'][2] = 'new-7aa99e81-8eca-4507-89fc-0188cb996d2d';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = 'new-18fd043f-0b34-4c97-b877-bff0561a8210';
   $handler->conf['display'] = $display;
