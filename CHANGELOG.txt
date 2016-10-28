@@ -7,6 +7,7 @@ Panels Everywhere 7.x-1.x-dev, xxxx-xx-xx
 #2305533 by DamienMcKenna: Documented theming problem with form field errors.
 #2821532 by DamienMcKenna: Updated the default exported display.
 #2821534 by DamienMcKenna: Added the search box to the default display.
+#2804901 by DamienMcKenna: Added some initial tests.
 
 
 Panels Everywhere 7.x-1.0-rc2, 2015-01-17

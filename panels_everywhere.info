@@ -4,6 +4,15 @@ package = "Panels"
 core = 7.x
 
 ; Requires recent releases of both CTools and Panels.
-dependencies[] = ctools (>=1.6)
-dependencies[] = panels (>=3.5)
+dependencies[] = ctools
+dependencies[] = panels
 dependencies[] = page_manager
+
+; Tests
+files[] = tests/PanelsEverywhereTestHelper.test
+files[] = tests/PanelsEverywhereBasicsTestCase.test
+files[] = tests/PanelsEverywhereSettingsTestCase.test
+files[] = tests/PanelsEverywhereNodeEditTestCase.test
+files[] = tests/PanelsEverywhereNodeViewTestCase.test
+files[] = tests/PanelsEverywhereUserEditTestCase.test
+files[] = tests/PanelsEverywhereUserViewTestCase.test
