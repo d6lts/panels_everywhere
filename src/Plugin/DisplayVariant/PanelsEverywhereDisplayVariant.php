@@ -5,7 +5,7 @@
  * Contains \Drupal\panels_everywhere_poc\Plugin\DisplayVariant\PanelsEverywhereDisplayVariant.
  */
 
-namespace Drupal\panels_everywhere_poc\Plugin\DisplayVariant;
+namespace Drupal\panels_everywhere\Plugin\DisplayVariant;
 
 use Drupal\panels\Plugin\DisplayVariant\PanelsDisplayVariant;
 use Drupal\Core\Display\PageVariantInterface;
@@ -33,6 +33,27 @@ class PanelsEverywhereDisplayVariant extends PanelsDisplayVariant implements Pag
   protected $mainContent = [];
 
   /**
+   * The title for the display variant.
+   *
+   * @var string
+   */
+  protected $title;
+
+  /**
+   * Sets the title for the page being rendered.
+   *
+   * @param string|array $title
+   *   The page title: either a string for plain titles or a render array for
+   *   formatted titles.
+   *
+   * @return $this
+   */
+  public function setTitle($title) {
+    $this->title = $title;
+    return $this;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function setMainContent(array $main_content) {
@@ -45,7 +66,7 @@ class PanelsEverywhereDisplayVariant extends PanelsDisplayVariant implements Pag
    */
   public function build() {
     $main_content_included = NULL;
-
+    $this->setPageTitle($this->title);
     foreach ($this->getRegionAssignments() as $region => $blocks) {
       if (!$blocks) {
         continue;

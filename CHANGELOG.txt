@@ -1,3 +1,4 @@
 Panels_Everywhere 8.x-1.x-dev, xxxx-xx-xx
 -----------------------------------------
 By dsnopek: Initial port to Drupal 8.
+By evanjenkis: General improvements & bugfixing.
