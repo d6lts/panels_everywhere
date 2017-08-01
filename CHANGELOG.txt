@@ -1,6 +1,7 @@
 Panels_Everywhere 8.x-4.x-dev, xxxx-xx-xx
 -----------------------------------------
-Updated the info file for compatibility with Drupal core 8.3.x.
+By DamienMcKenna: Updated the info file for compatibility with Drupal 8.3.x.
+By DamienMcKenna: Updated the requirements info in the README.txt file.
 
 
 Panels_Everywhere 8.x-1.0-alpha1, 2017-01-20

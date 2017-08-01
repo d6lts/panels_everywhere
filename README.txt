@@ -5,10 +5,14 @@ Takes over the page.html.twig and places layout configurations in layouts.
 
 Requirements
 --------------------------------------------------------------------------------
-Panels - https://www.drupal.org/project/panels
-Page Manager - https://www.drupal.org/project/page_manager
-Layout Plugin - https://www.drupal.org/project/layout_plugin
-CTools - https://www.drupal.org/project/ctools
+* Drupal core 8.3.x releases only
+  This release of the module is incompatible with core 8.2.x.
+* Panels 8.x-4.x releases only
+  https://www.drupal.org/project/panels
+* Page Manager 8.x-4.x releases only
+  https://www.drupal.org/project/page_manager
+* CTools 8.x-3.x releases only
+  https://www.drupal.org/project/ctools
 
 
 Installation
