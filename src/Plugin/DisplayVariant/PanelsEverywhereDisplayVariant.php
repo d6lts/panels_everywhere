@@ -74,7 +74,7 @@ class PanelsEverywhereDisplayVariant extends PanelsDisplayVariant implements Pag
       foreach ($blocks as $block_id => $block) {
         if ($block instanceof MainContentBlockPluginInterface) {
           $block->setMainContent($this->mainContent);
-          $main_content_included = array($region, $block_id);
+          $main_content_included = [$region, $block_id];
         }
       }
     }

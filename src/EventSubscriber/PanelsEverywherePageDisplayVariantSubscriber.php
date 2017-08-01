@@ -9,7 +9,7 @@ namespace Drupal\panels_everywhere\EventSubscriber;
 
 use Drupal\Core\Condition\ConditionAccessResolverTrait;
 use Drupal\Core\Display\ContextAwareVariantInterface;
-use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\PageDisplayVariantSelectionEvent;
 use Drupal\Core\Render\RenderEvents;
 use Drupal\page_manager\Entity\PageVariant;
@@ -32,11 +32,11 @@ class PanelsEverywherePageDisplayVariantSubscriber implements EventSubscriberInt
   /**
    * Constructs a new PageManagerRoutes.
    *
-   * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity manager.
    */
-  public function __construct(EntityManagerInterface $entity_manager) {
-    $this->entityStorage = $entity_manager->getStorage('page');
+  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+    $this->entityStorage = $entity_type_manager->getStorage('page');
   }
 
   /**
@@ -63,12 +63,9 @@ class PanelsEverywherePageDisplayVariantSubscriber implements EventSubscriberInt
       }
 
       $plugin = $variant->getVariantPlugin();
-//      kpr($variant->access());
-//      if ($variant->access()) {
         $event->setPluginId($plugin->getPluginId());
         $event->setPluginConfiguration($plugin->getConfiguration());
         $event->setContexts($variant->getContexts());
-//      }
       break;
     }
   }
@@ -77,7 +74,7 @@ class PanelsEverywherePageDisplayVariantSubscriber implements EventSubscriberInt
    * {@inheritdoc}
    */
   static function getSubscribedEvents() {
-    $events[RenderEvents::SELECT_PAGE_DISPLAY_VARIANT][] = array('onSelectPageDisplayVariant');
+    $events[RenderEvents::SELECT_PAGE_DISPLAY_VARIANT][] = ['onSelectPageDisplayVariant'];
     return $events;
   }
 
