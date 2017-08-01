@@ -1,4 +1,4 @@
-Panels_Everywhere 8.x-1.x-dev, xxxx-xx-xx
+Panels_Everywhere 8.x-4.x-dev, xxxx-xx-xx
 -----------------------------------------
 
 
