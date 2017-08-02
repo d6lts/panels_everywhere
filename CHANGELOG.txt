@@ -5,6 +5,8 @@ By DamienMcKenna: Updated the requirements info in the README.txt file.
 #2874012 by markus_petrux, DamienMcKenna: Use the new 8.3.x core layout.
 #2870307 by Pavan B S: Cleaned up the codebase.
 #2899371 by DamienMcKenna: Added a composer.json file.
+#2851220 by markus_petrux, DamienMcKenna: Array to string conversion in
+  Drupal\Component\Render\HtmlEscapedText.
 
 
 Panels_Everywhere 8.x-1.0-alpha1, 2017-01-20
