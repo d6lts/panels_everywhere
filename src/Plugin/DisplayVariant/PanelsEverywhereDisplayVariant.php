@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\panels_everywhere_poc\Plugin\DisplayVariant\PanelsEverywhereDisplayVariant.
- */
-
 namespace Drupal\panels_everywhere\Plugin\DisplayVariant;
 
 use Drupal\panels\Plugin\DisplayVariant\PanelsDisplayVariant;
@@ -93,4 +88,5 @@ class PanelsEverywhereDisplayVariant extends PanelsDisplayVariant implements Pag
 
     return $build;
   }
+
 }

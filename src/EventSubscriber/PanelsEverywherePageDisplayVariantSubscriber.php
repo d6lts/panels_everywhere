@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\panels_everywhere_poc\EventSubscriber\PanelsEverywherePageDisplayVariantSubscriber.
- */
-
 namespace Drupal\panels_everywhere\EventSubscriber;
 
 use Drupal\Core\Condition\ConditionAccessResolverTrait;
@@ -20,14 +15,15 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * Selects the appropriate page display variant from 'site_template'.
  */
 class PanelsEverywherePageDisplayVariantSubscriber implements EventSubscriberInterface {
+
+  use ConditionAccessResolverTrait;
+
   /**
    * The entity storage.
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
   protected $entityStorage;
-
-  use ConditionAccessResolverTrait;
 
   /**
    * Constructs a new PageManagerRoutes.
@@ -63,9 +59,9 @@ class PanelsEverywherePageDisplayVariantSubscriber implements EventSubscriberInt
       }
 
       $plugin = $variant->getVariantPlugin();
-        $event->setPluginId($plugin->getPluginId());
-        $event->setPluginConfiguration($plugin->getConfiguration());
-        $event->setContexts($variant->getContexts());
+      $event->setPluginId($plugin->getPluginId());
+      $event->setPluginConfiguration($plugin->getConfiguration());
+      $event->setContexts($variant->getContexts());
       break;
     }
   }
