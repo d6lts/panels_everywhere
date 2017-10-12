@@ -12,6 +12,8 @@ By DamienMcKenna: Updated the requirements info in the README.txt file.
 #2914580 by DamienMcKenna: Coding standards cleanup.
 #2902488 by Alumei: Cannot use object of type
   Drupal\Core\StringTranslation\TranslatableMarkup as array.
+By DamienMcKenna: Minor clarification that 8.2.x and older are no longer
+  supported and 8.3.x may stop working.
 
 
 Panels_Everywhere 8.x-1.0-alpha1, 2017-01-20

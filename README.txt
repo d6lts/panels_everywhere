@@ -6,7 +6,9 @@ Takes over the page.html.twig and places layout configurations in layouts.
 Requirements
 --------------------------------------------------------------------------------
 * Drupal core 8.3.x releases only
-  This release of the module is incompatible with core 8.2.x.
+  This release of the module is incompatible with core 8.2.x or older. Also,
+  because 8.3.x is no longer officially supported, incompatibilities with it may
+  not be resolved.
 * Panels 8.x-4.x releases only
   https://www.drupal.org/project/panels
 * Page Manager 8.x-4.x releases only
