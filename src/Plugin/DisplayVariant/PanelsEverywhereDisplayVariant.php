@@ -44,7 +44,7 @@ class PanelsEverywhereDisplayVariant extends PanelsDisplayVariant implements Pag
    * @return $this
    */
   public function setTitle($title) {
-    $this->title = (is_string($title) ? $title : (string) drupal_render_root($title));
+    $this->title = (string) (is_array($title) ? drupal_render_root($title) : $title);
     return $this;
   }
 

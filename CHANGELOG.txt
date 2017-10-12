@@ -10,6 +10,8 @@ By DamienMcKenna: Updated the requirements info in the README.txt file.
 #2845511 by Alumei, DamienMcKenna: Added an initial test to ensure the site
   doesn't blow up when the module is installed.
 #2914580 by DamienMcKenna: Coding standards cleanup.
+#2902488 by Alumei: Cannot use object of type
+  Drupal\Core\StringTranslation\TranslatableMarkup as array.
 
 
 Panels_Everywhere 8.x-1.0-alpha1, 2017-01-20
