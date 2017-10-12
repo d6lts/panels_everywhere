@@ -14,6 +14,8 @@ By DamienMcKenna: Updated the requirements info in the README.txt file.
   Drupal\Core\StringTranslation\TranslatableMarkup as array.
 By DamienMcKenna: Minor clarification that 8.2.x and older are no longer
   supported and 8.3.x may stop working.
+#2874012 by DamienMcKenna, karolus, NWOM: Update script to fix compatibility
+  with Layout Discovery in 8.3.x.
 
 
 Panels_Everywhere 8.x-1.0-alpha1, 2017-01-20
