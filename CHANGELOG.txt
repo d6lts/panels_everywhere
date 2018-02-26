@@ -8,6 +8,7 @@ Panels Everywhere 7.x-1.x-dev, xxxx-xx-xx
 #2821532 by DamienMcKenna: Updated the default exported display.
 #2821534 by DamienMcKenna: Added the search box to the default display.
 #2804901 by DamienMcKenna: Added some initial tests.
+#2948040 by DamienMcKenna: Replace each(), it's deprecated in PHP 7.2.
 
 
 Panels Everywhere 7.x-1.0-rc2, 2015-01-17
