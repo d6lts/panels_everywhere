@@ -253,11 +253,17 @@ field definitions are overriding the input.error definition from the system
 module's system.theme.css file. To fix the problem, copy the necessary lines
 from the system.theme.css file to the appropriate CSS file for the custom theme.
 
+Because the Panels layout system does not support categorizing layouts to be
+suitable for full page displays versus page components, there can be situations
+where certain classes or IDs are duplicated because of layout selection. As a
+result, it is advisable to be careful selecting layouts, and to be mindful of
+ther intended uses when creating new layouts.
+
 
 Credits / Contact
 ------------------------------------------------------------------------------
 Currently maintained by Damien McKenna [1]. Originally written by Earl Miles
-[2] with many contributions by Claes Gyllensvärd [3].
+[2] with many contributions by Claes Gyllensvärd [3] and others.
 
 Ongoing development is sponsored by Mediacurrent [4]. All initial development
 was sponsored by IO1 [5].

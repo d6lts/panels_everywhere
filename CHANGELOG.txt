@@ -9,6 +9,7 @@ Panels Everywhere 7.x-1.x-dev, xxxx-xx-xx
 #2821534 by DamienMcKenna: Added the search box to the default display.
 #2804901 by DamienMcKenna: Added some initial tests.
 #2948040 by DamienMcKenna: Replace each(), it's deprecated in PHP 7.2.
+#2261183 by DamienMcKenna: Document that layouts can cause duplicate HTML.
 
 
 Panels Everywhere 7.x-1.0-rc2, 2015-01-17
