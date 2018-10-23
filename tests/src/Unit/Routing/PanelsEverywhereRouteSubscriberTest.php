@@ -1,13 +1,14 @@
 <?php
 
-namespace Drupal\Tests\panels_everywhere\Unit;
+namespace Drupal\Tests\panels_everywhere\Unit\Routing;
 
 use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
-use Drupal\Core\Display\PageVariantInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Routing\RouteBuildEvent;
 use Drupal\page_manager\PageInterface;
+use Drupal\page_manager\PageVariantInterface;
+use Drupal\panels_everywhere\Plugin\DisplayVariant\PanelsEverywhereDisplayVariant;
 use Drupal\panels_everywhere\Routing\PanelsEverywhereRouteSubscriber;
 use Drupal\Tests\UnitTestCase;
 use Prophecy\Argument;
@@ -21,7 +22,9 @@ use Symfony\Component\Routing\RouteCollection;
 class PanelsEverywhereRouteSubscriberTest extends UnitTestCase {
 
   /**
-   * Tests that PanelsEverywhereRouteSubscriber does nothing if there are no
+   * Tests onAlterRoutes.
+   *
+   * Specifically that PanelsEverywhereRouteSubscriber does nothing if there are no
    * page entities.
    */
   public function testSubscriberDoesNothingForNoPageEntities() {
@@ -34,23 +37,22 @@ class PanelsEverywhereRouteSubscriberTest extends UnitTestCase {
 
     $cacheTagsInvalidator = $this->prophesize(CacheTagsInvalidatorInterface::class);
 
-    $routeCollection = $this->prophesize(RouteCollection::class);
+    $routeCollection = new RouteCollection();
 
-    $event = $this->prophesize(RouteBuildEvent::class);
-    $event->getRouteCollection()->willReturn($routeCollection->reveal());
+    $event = new RouteBuildEvent($routeCollection);
 
     // When.
     $subscriber = new PanelsEverywhereRouteSubscriber($entityTypeManager->reveal(), $cacheTagsInvalidator->reveal());
-    $subscriber->onAlterRoutes($event->reveal());
+    $subscriber->onAlterRoutes($event);
 
     // Then.
-    $routeCollection->remove(Argument::type('string'))->shouldNotHaveBeenCalled();
-    $routeCollection->remove(Argument::type('array'))->shouldNotHaveBeenCalled();
-    $routeCollection->get(Argument::type('string'))->shouldNotHaveBeenCalled();
+    self::assertEmpty($routeCollection->all());
   }
 
   /**
-   * Test that PanelsEverywhereRouteSubscriber does nothing if there are no
+   * Tests onAlterRoutes.
+   *
+   * Specifically that PanelsEverywhereRouteSubscriber does nothing if there are no
    * enabled page entities.
    */
   public function testSubscriberDoesNothingForNoEnabledPageEntity() {
@@ -66,24 +68,23 @@ class PanelsEverywhereRouteSubscriberTest extends UnitTestCase {
 
     $cacheTagsInvalidator = $this->prophesize(CacheTagsInvalidatorInterface::class);
 
-    $routeCollection = $this->prophesize(RouteCollection::class);
+    $routeCollection = new RouteCollection();
 
-    $event = $this->prophesize(RouteBuildEvent::class);
-    $event->getRouteCollection()->willReturn($routeCollection->reveal());
+    $event = new RouteBuildEvent($routeCollection);
 
     // When.
     $subscriber = new PanelsEverywhereRouteSubscriber($entityTypeManager->reveal(), $cacheTagsInvalidator->reveal());
-    $subscriber->onAlterRoutes($event->reveal());
+    $subscriber->onAlterRoutes($event);
 
     // Then.
-    $routeCollection->remove(Argument::type('string'))->shouldNotHaveBeenCalled();
-    $routeCollection->remove(Argument::type('array'))->shouldNotHaveBeenCalled();
-    $routeCollection->get(Argument::type('string'))->shouldNotHaveBeenCalled();
+    self::assertEmpty($routeCollection->all());
   }
 
   /**
-   * Test that PanelsEverywhereRouteSubscriber does nothing if there are no
-   * variants on page entity.
+   * Tests onAlterRoutes.
+   *
+   * Specifically that PanelsEverywhereRouteSubscriber does nothing if there
+   * are no variants on page entity.
    */
   public function testSubscriberDoesNothingForNoVariantsOnPageEntity() {
     // Given.
@@ -99,33 +100,31 @@ class PanelsEverywhereRouteSubscriberTest extends UnitTestCase {
 
     $cacheTagsInvalidator = $this->prophesize(CacheTagsInvalidatorInterface::class);
 
-    $routeCollection = $this->prophesize(RouteCollection::class);
+    $routeCollection = new RouteCollection();
 
-    $event = $this->prophesize(RouteBuildEvent::class);
-    $event->getRouteCollection()->willReturn($routeCollection->reveal());
+    $event = new RouteBuildEvent($routeCollection);
 
     // When.
     $subscriber = new PanelsEverywhereRouteSubscriber($entityTypeManager->reveal(), $cacheTagsInvalidator->reveal());
-    $subscriber->onAlterRoutes($event->reveal());
+    $subscriber->onAlterRoutes($event);
 
     // Then.
-    $routeCollection->remove(Argument::type('string'))->shouldNotHaveBeenCalled();
-    $routeCollection->remove(Argument::type('array'))->shouldNotHaveBeenCalled();
-    $routeCollection->get(Argument::type('string'))->shouldNotHaveBeenCalled();
+    self::assertEmpty($routeCollection->all());
   }
 
   /**
-   * Test that PanelsEverywhereRouteSubscriber does nothing if there is no
-   * disabled route override flag on page entity.
+   * Tests onAlterRoutes.
+   *
+   * Specifically that PanelsEverywhereRouteSubscriber does nothing if there
+   * are no variants of plugin-id 'panels_everywhere_variant' on page entity.
    */
-  public function testSubscriberDoesNothingForNoDisableFlagOnPageEntity() {
-    // Given.
+  public function testSubscriberDoesNothingForNoPanelsEveryWhereVariantOnPageEntity() {
     $pageVariant = $this->prophesize(PageVariantInterface::class);
+    $pageVariant->getVariantPluginId()->willReturn('not_panels_everywhere_variant');
 
     $pageEntity = $this->prophesize(PageInterface::class);
     $pageEntity->status()->willReturn(TRUE);
-    $pageEntity->getVariants()->willReturn([ $pageVariant->reveal() ]);
-    $pageEntity->getThirdPartySetting('panels_everywhere', 'disable_route_override')->willReturn(NULL);
+    $pageEntity->getVariants()->willReturn(['some_variant_id' => $pageVariant->reveal()]);
 
     $pageStorage = $this->prophesize(EntityStorageInterface::class);
     $pageStorage->loadMultiple()->willReturn([ $pageEntity->reveal() ]);
@@ -135,33 +134,37 @@ class PanelsEverywhereRouteSubscriberTest extends UnitTestCase {
 
     $cacheTagsInvalidator = $this->prophesize(CacheTagsInvalidatorInterface::class);
 
-    $routeCollection = $this->prophesize(RouteCollection::class);
+    $routeCollection = new RouteCollection();
 
-    $event = $this->prophesize(RouteBuildEvent::class);
-    $event->getRouteCollection()->willReturn($routeCollection->reveal());
+    $event = new RouteBuildEvent($routeCollection);
 
     // When.
     $subscriber = new PanelsEverywhereRouteSubscriber($entityTypeManager->reveal(), $cacheTagsInvalidator->reveal());
-    $subscriber->onAlterRoutes($event->reveal());
+    $subscriber->onAlterRoutes($event);
 
     // Then.
-    $routeCollection->remove(Argument::type('string'))->shouldNotHaveBeenCalled();
-    $routeCollection->remove(Argument::type('array'))->shouldNotHaveBeenCalled();
-    $routeCollection->get(Argument::type('string'))->shouldNotHaveBeenCalled();
+    self::assertEmpty($routeCollection->all());
   }
 
   /**
-   * Test that PanelsEverywhereRouteSubscriber does nothing if the route
-   * override flag is set to FALSE on page entity.
+   * Tests onAlterRoutes.
+   *
+   * Specifically that PanelsEverywhereRouteSubscriber does nothing if the
+   * corresponding route for the 'panels_everywhere_variant' is not in
+   * the route collection.
    */
-  public function testSubscriberDoesNothingForInactiveDisableFlagOnPageEntity() {
-    // Given.
+  public function testSubscriberDoesNothingForNoVariantRouteInCollection() {
+    $page_id = 'some_page_id';
+    $variant_id = 'some_variant_id';
+
     $pageVariant = $this->prophesize(PageVariantInterface::class);
+    $pageVariant->id()->willReturn($variant_id);
+    $pageVariant->getVariantPluginId()->willReturn('panels_everywhere_variant');
 
     $pageEntity = $this->prophesize(PageInterface::class);
+    $pageEntity->id()->willReturn($page_id);
     $pageEntity->status()->willReturn(TRUE);
-    $pageEntity->getVariants()->willReturn([ $pageVariant->reveal() ]);
-    $pageEntity->getThirdPartySetting('panels_everywhere', 'disable_route_override')->willReturn(FALSE);
+    $pageEntity->getVariants()->willReturn(['some_variant_id' => $pageVariant->reveal()]);
 
     $pageStorage = $this->prophesize(EntityStorageInterface::class);
     $pageStorage->loadMultiple()->willReturn([ $pageEntity->reveal() ]);
@@ -171,35 +174,42 @@ class PanelsEverywhereRouteSubscriberTest extends UnitTestCase {
 
     $cacheTagsInvalidator = $this->prophesize(CacheTagsInvalidatorInterface::class);
 
-    $routeCollection = $this->prophesize(RouteCollection::class);
+    $routeCollection = new RouteCollection();
 
-    $event = $this->prophesize(RouteBuildEvent::class);
-    $event->getRouteCollection()->willReturn($routeCollection->reveal());
+    $event = new RouteBuildEvent($routeCollection);
 
     // When.
     $subscriber = new PanelsEverywhereRouteSubscriber($entityTypeManager->reveal(), $cacheTagsInvalidator->reveal());
-    $subscriber->onAlterRoutes($event->reveal());
+    $subscriber->onAlterRoutes($event);
 
     // Then.
-    $routeCollection->remove(Argument::type('string'))->shouldNotHaveBeenCalled();
-    $routeCollection->remove(Argument::type('array'))->shouldNotHaveBeenCalled();
-    $routeCollection->get(Argument::type('string'))->shouldNotHaveBeenCalled();
+    self::assertEmpty($routeCollection->all());
   }
 
   /**
-   * Test that PanelsEverywhereRouteSubscriber does nothing if the collection
-   * contains no entries and route override flag is set to TRUE on page
-   * entity.
+   * Test onAlterRoutes.
+   *
+   * Specifically that the page-manager variant route-override is and
+   * the panels_everywhere_page_id is set on the original route.
    */
-  public function testSubscriberDoesNothingForActiveDisableFlagAndEmptyRouteCollection() {
-    // Given.
+  public function testSubscriberRemovesVariantRouteAndSetsPanelsEverywherePageIdForOriginalRouteInCollection() {
+    $page_id = 'some_page_id';
+    $variant_id = 'some_variant_id';
+    $route_name_variant = "page_manager.page_view_${page_id}_${variant_id}";
+    $route_name_original = 'original.route_name';
+
+    $variantPlugin = $this->prophesize(PanelsEverywhereDisplayVariant::class);
+    $variantPlugin->isRouteOverrideEnabled()->willReturn(FALSE);
+
     $pageVariant = $this->prophesize(PageVariantInterface::class);
+    $pageVariant->id()->willReturn($variant_id);
+    $pageVariant->getVariantPluginId()->willReturn('panels_everywhere_variant');
+    $pageVariant->getVariantPlugin()->willReturn($variantPlugin->reveal());
 
     $pageEntity = $this->prophesize(PageInterface::class);
+    $pageEntity->id()->willReturn($page_id);
     $pageEntity->status()->willReturn(TRUE);
-    $pageEntity->getVariants()->willReturn([ $pageVariant->reveal() ]);
-    $pageEntity->getThirdPartySetting('panels_everywhere', 'disable_route_override')->willReturn(TRUE);
-    $pageEntity->getPath()->willReturn('/path');
+    $pageEntity->getVariants()->willReturn([$variant_id => $pageVariant->reveal()]);
 
     $pageStorage = $this->prophesize(EntityStorageInterface::class);
     $pageStorage->loadMultiple()->willReturn([ $pageEntity->reveal() ]);
@@ -209,36 +219,49 @@ class PanelsEverywhereRouteSubscriberTest extends UnitTestCase {
 
     $cacheTagsInvalidator = $this->prophesize(CacheTagsInvalidatorInterface::class);
 
-    $routeCollection = $this->prophesize(RouteCollection::class);
-    $routeCollection->all()->willReturn([]);
+    $routeOriginal = new Route('/some-path');
+    $routeVariant = new Route('/some-path');
+    $routeVariant->setDefault('overridden_route_name', $route_name_original);
 
-    $event = $this->prophesize(RouteBuildEvent::class);
-    $event->getRouteCollection()->willReturn($routeCollection->reveal());
+    $routeCollection = new RouteCollection();
+    $routeCollection->add($route_name_original, $routeOriginal);
+    $routeCollection->add($route_name_variant, $routeVariant);
+
+    $event = new RouteBuildEvent($routeCollection);
 
     // When.
     $subscriber = new PanelsEverywhereRouteSubscriber($entityTypeManager->reveal(), $cacheTagsInvalidator->reveal());
-    $subscriber->onAlterRoutes($event->reveal());
+    $subscriber->onAlterRoutes($event);
 
     // Then.
-    $routeCollection->remove(Argument::type('string'))->shouldNotHaveBeenCalled();
-    $routeCollection->remove(Argument::type('array'))->shouldNotHaveBeenCalled();
-    $routeCollection->get(Argument::type('string'))->shouldNotHaveBeenCalled();
+    self::assertNull($routeCollection->get($route_name_variant));
+    self::assertEquals($page_id, $routeOriginal->getDefault('page_id'));
   }
 
   /**
-   * Test that PanelsEverywhereRouteSubscriber does nothing if the collection
-   * contains no matching path or outline and route override flag is set to TRUE on page
-   * entity.
+   * Test onAlterRoutes.
+   *
+   * Specifically that the page-manager variant route-override is not removed
+   * when the removal of route-overrides is disables.
    */
-  public function testSubscriberDoesNothingForActiveDisableFlagAndNoMatchingPathAndOutlineInCollection() {
-    // Given.
+  public function testSubscriberDoesNotRemoveVariantRouteAndSetsPanelsEverywherePageIdOnItForDisabledRouteOverrideRemovalBehaviour() {
+    $page_id = 'some_page_id';
+    $variant_id = 'some_variant_id';
+    $route_name_variant = "page_manager.page_view_${page_id}_${variant_id}";
+    $route_name_original = 'original.route_name';
+
+    $variantPlugin = $this->prophesize(PanelsEverywhereDisplayVariant::class);
+    $variantPlugin->isRouteOverrideEnabled()->willReturn(TRUE);
+
     $pageVariant = $this->prophesize(PageVariantInterface::class);
+    $pageVariant->id()->willReturn($variant_id);
+    $pageVariant->getVariantPluginId()->willReturn('panels_everywhere_variant');
+    $pageVariant->getVariantPlugin()->willReturn($variantPlugin->reveal());
 
     $pageEntity = $this->prophesize(PageInterface::class);
+    $pageEntity->id()->willReturn($page_id);
     $pageEntity->status()->willReturn(TRUE);
-    $pageEntity->getVariants()->willReturn([ $pageVariant->reveal() ]);
-    $pageEntity->getThirdPartySetting('panels_everywhere', 'disable_route_override')->willReturn(TRUE);
-    $pageEntity->getPath()->willReturn('/path');
+    $pageEntity->getVariants()->willReturn([$variant_id => $pageVariant->reveal()]);
 
     $pageStorage = $this->prophesize(EntityStorageInterface::class);
     $pageStorage->loadMultiple()->willReturn([ $pageEntity->reveal() ]);
@@ -248,133 +271,51 @@ class PanelsEverywhereRouteSubscriberTest extends UnitTestCase {
 
     $cacheTagsInvalidator = $this->prophesize(CacheTagsInvalidatorInterface::class);
 
-    $route = $this->prophesize(Route::class);
-    $route->getPath()->willReturn('/anotherPath');
+    $routeOriginal = new Route('/some-path');
+    $routeVariant = new Route('/some-path');
+    $routeVariant->setDefault('overridden_route_name', $route_name_original);
 
-    $routeCollection = $this->prophesize(RouteCollection::class);
-    $routeCollection->all()->willReturn([ 'some.route_name' => $route->reveal() ]);
+    $routeCollection = new RouteCollection();
+    $routeCollection->add($route_name_original, $routeOriginal);
+    $routeCollection->add($route_name_variant, $routeVariant);
 
-    $event = $this->prophesize(RouteBuildEvent::class);
-    $event->getRouteCollection()->willReturn($routeCollection->reveal());
-
-    // When.
-    $subscriber = new PanelsEverywhereRouteSubscriber($entityTypeManager->reveal(), $cacheTagsInvalidator->reveal());
-    $subscriber->onAlterRoutes($event->reveal());
-
-    // Then.
-    $routeCollection->remove(Argument::type('string'))->shouldNotHaveBeenCalled();
-    $routeCollection->remove(Argument::type('array'))->shouldNotHaveBeenCalled();
-    $routeCollection->get(Argument::type('string'))->shouldNotHaveBeenCalled();
-  }
-
-  /**
-   * Test that PanelsEverywhereRouteSubscriber removes override rout if the
-   * collection contains matching variant route and the route override flag is
-   * set to TRUE on page entity.
-   */
-  public function testSubscriberDoesNothingForActiveDisableFlagAndNoMatchingVariantRouteInCollection() {
-    // Given.
-    $pageVariant = $this->prophesize(PageVariantInterface::class);
-
-    $pageEntity = $this->prophesize(PageInterface::class);
-    $pageEntity->status()->willReturn(TRUE);
-    $pageEntity->getVariants()->willReturn([ $pageVariant->reveal() ]);
-    $pageEntity->getThirdPartySetting('panels_everywhere', 'disable_route_override')->willReturn(TRUE);
-    $pageEntity->getPath()->willReturn('/path');
-
-    $pageStorage = $this->prophesize(EntityStorageInterface::class);
-    $pageStorage->loadMultiple()->willReturn([ $pageEntity->reveal() ]);
-
-    $entityTypeManager = $this->prophesize(EntityTypeManagerInterface::class);
-    $entityTypeManager->getStorage('page')->willReturn($pageStorage->reveal());
-
-    $cacheTagsInvalidator = $this->prophesize(CacheTagsInvalidatorInterface::class);
-
-    $route = $this->prophesize(Route::class);
-    $route->getPath()->willReturn('/path');
-    $route->hasDefault('page_manager_page_variant')->willReturn(FALSE);
-
-    $routeCollection = $this->prophesize(RouteCollection::class);
-    $routeCollection->all()->willReturn([ 'some.route_name' => $route->reveal() ]);
-
-    $event = $this->prophesize(RouteBuildEvent::class);
-    $event->getRouteCollection()->willReturn($routeCollection->reveal());
+    $event = new RouteBuildEvent($routeCollection);
 
     // When.
     $subscriber = new PanelsEverywhereRouteSubscriber($entityTypeManager->reveal(), $cacheTagsInvalidator->reveal());
-    $subscriber->onAlterRoutes($event->reveal());
+    $subscriber->onAlterRoutes($event);
 
     // Then.
-    $routeCollection->remove(Argument::type('string'))->shouldNotHaveBeenCalled();
-    $routeCollection->remove(Argument::type('array'))->shouldNotHaveBeenCalled();
-    $routeCollection->get(Argument::type('string'))->shouldNotHaveBeenCalled();
+    self::assertNotNull($routeCollection->get($route_name_variant));
+    self::assertEquals($page_id, $routeVariant->getDefault('page_id'));
   }
 
-  /**
-   * Test that PanelsEverywhereRouteSubscriber removes override if the
-   * collection contains matching path and variant route and the route override
-   * flag is set to TRUE on page entity.
-   */
-  public function testSubscriberRemovesOverrideForActiveDisableFlagAndMatchingVariantRouteAndPathInCollection() {
-    // Given.
+  public function testSubscriberWillSetPanelsEverywherePageIdForOtherVariantsOnThePageIfOverrideDisabledAndRemoveOverriddenRoute() {
+    $page_id = 'some_page_id';
+    $variant_id = 'some_variant_id';
+    $other_variant_id = 'some_other_variant_id';
+    $route_name_variant = "page_manager.page_view_${page_id}_${variant_id}";
+    $route_name_other_variant = "page_manager.page_view_${page_id}_${other_variant_id}";
+
+    $variantPlugin = $this->prophesize(PanelsEverywhereDisplayVariant::class);
+    $variantPlugin->isRouteOverrideEnabled()->willReturn(FALSE);
+
     $pageVariant = $this->prophesize(PageVariantInterface::class);
+    $pageVariant->id()->willReturn($variant_id);
+    $pageVariant->getVariantPluginId()->willReturn('panels_everywhere_variant');
+    $pageVariant->getVariantPlugin()->willReturn($variantPlugin->reveal());
+
+    $otherPageVariant = $this->prophesize(PageVariantInterface::class);
+    $otherPageVariant->id()->willReturn($other_variant_id);
+    $otherPageVariant->getVariantPluginId()->willReturn('other_variant');
 
     $pageEntity = $this->prophesize(PageInterface::class);
+    $pageEntity->id()->willReturn($page_id);
     $pageEntity->status()->willReturn(TRUE);
-    $pageEntity->getVariants()->willReturn([ $pageVariant->reveal() ]);
-    $pageEntity->getThirdPartySetting('panels_everywhere', 'disable_route_override')->willReturn(TRUE);
-    $pageEntity->getPath()->willReturn('/path');
-
-    $pageStorage = $this->prophesize(EntityStorageInterface::class);
-    $pageStorage->loadMultiple()->willReturn([ $pageEntity->reveal() ]);
-
-    $entityTypeManager = $this->prophesize(EntityTypeManagerInterface::class);
-    $entityTypeManager->getStorage('page')->willReturn($pageStorage->reveal());
-
-    $cacheTagsInvalidator = $this->prophesize(CacheTagsInvalidatorInterface::class);
-
-    $overrideRoute = $this->prophesize(Route::class);
-    $overrideRoute->getPath()->willReturn('/path');
-    $overrideRoute->hasDefault('page_manager_page_variant')->willReturn(TRUE);
-    $overrideRoute->getDefault('overridden_route_name')->willReturn('original.route_name');
-
-    $originalRoute = $this->prophesize(Route::class);
-    $originalRoute->getPath()->willReturn('/path');
-    $originalRoute->hasDefault('page_manager_page_variant')->willReturn(FALSE);
-    $originalRoute->setDefault('page_id', Argument::type('integer'))->willReturn($originalRoute->reveal());
-
-    $routeCollection = $this->prophesize(RouteCollection::class);
-    $routeCollection->all()->willReturn([
-      'some.route_name' => $overrideRoute->reveal(),
-      'original.route_name' => $overrideRoute->reveal()
+    $pageEntity->getVariants()->willReturn([
+      $variant_id => $pageVariant->reveal(),
+      $other_variant_id => $otherPageVariant->reveal(),
     ]);
-    $routeCollection->remove("some.route_name")->willReturn(NULL);
-    $routeCollection->get('original.route_name')->willReturn($originalRoute->reveal());
-
-    $event = $this->prophesize(RouteBuildEvent::class);
-    $event->getRouteCollection()->willReturn($routeCollection->reveal());
-
-    // When.
-    $subscriber = new PanelsEverywhereRouteSubscriber($entityTypeManager->reveal(), $cacheTagsInvalidator->reveal());
-    $subscriber->onAlterRoutes($event->reveal());
-
-    // Then.
-    $routeCollection->remove('some.route_name')->shouldHaveBeenCalled();
-  }
-  /**
-   * Test that PanelsEverywhereRouteSubscriber removes override if the
-   * collection contains matching path outline and variant route and the route
-   * override flag is set to TRUE on page entity.
-   */
-  public function testSubscriberRemovesOverrideForActiveDisableFlagAndMatchingVariantRouteAndPathOutlineInCollection() {
-    // Given.
-    $pageVariant = $this->prophesize(PageVariantInterface::class);
-
-    $pageEntity = $this->prophesize(PageInterface::class);
-    $pageEntity->status()->willReturn(TRUE);
-    $pageEntity->getVariants()->willReturn([ $pageVariant->reveal() ]);
-    $pageEntity->getThirdPartySetting('panels_everywhere', 'disable_route_override')->willReturn(TRUE);
-    $pageEntity->getPath()->willReturn('/path/%');
 
     $pageStorage = $this->prophesize(EntityStorageInterface::class);
     $pageStorage->loadMultiple()->willReturn([ $pageEntity->reveal() ]);
@@ -384,138 +325,22 @@ class PanelsEverywhereRouteSubscriberTest extends UnitTestCase {
 
     $cacheTagsInvalidator = $this->prophesize(CacheTagsInvalidatorInterface::class);
 
-    $overrideRoute = $this->prophesize(Route::class);
-    $overrideRoute->getPath()->willReturn('/path/{wildcard}');
-    $overrideRoute->hasDefault('page_manager_page_variant')->willReturn(TRUE);
-    $overrideRoute->getDefault('overridden_route_name')->willReturn('original.route_name');
+    $routeVariant = new Route('/some-path');
+    $routeOtherVariant = new Route('/some-path');
 
-    $originalRoute = $this->prophesize(Route::class);
-    $originalRoute->getPath()->willReturn('/path/{wildcard}');
-    $originalRoute->hasDefault('page_manager_page_variant')->willReturn(FALSE);
-    $originalRoute->setDefault('page_id', Argument::type('integer'))->willReturn($originalRoute->reveal());
+    $routeCollection = new RouteCollection();
+    $routeCollection->add($route_name_variant, $routeVariant);
+    $routeCollection->add($route_name_other_variant, $routeOtherVariant);
 
-    $routeCollection = $this->prophesize(RouteCollection::class);
-    $routeCollection->all()->willReturn([
-      'some.route_name' => $overrideRoute->reveal(),
-      'original.route_name' => $overrideRoute->reveal()
-    ]);
-    $routeCollection->remove("some.route_name")->willReturn(NULL);
-    $routeCollection->get('original.route_name')->willReturn($originalRoute->reveal());
-
-    $event = $this->prophesize(RouteBuildEvent::class);
-    $event->getRouteCollection()->willReturn($routeCollection->reveal());
+    $event = new RouteBuildEvent($routeCollection);
 
     // When.
     $subscriber = new PanelsEverywhereRouteSubscriber($entityTypeManager->reveal(), $cacheTagsInvalidator->reveal());
-    $subscriber->onAlterRoutes($event->reveal());
+    $subscriber->onAlterRoutes($event);
 
     // Then.
-    $routeCollection->remove('some.route_name')->shouldHaveBeenCalled();
-  }
-
-  /**
-   * Test that PanelsEverywhereRouteSubscriber sets page-id on original if the
-   * collection contains matching path and variant route and the route override
-   * flag is set to TRUE on page entity.
-   */
-  public function testSubscriberSetsPageIdForActiveDisableFlagAndMatchingVariantRouteAndPathInCollection() {
-    // Given.
-    $pageVariant = $this->prophesize(PageVariantInterface::class);
-
-    $pageEntity = $this->prophesize(PageInterface::class);
-    $pageEntity->id()->willReturn(42);
-    $pageEntity->status()->willReturn(TRUE);
-    $pageEntity->getVariants()->willReturn([ $pageVariant->reveal() ]);
-    $pageEntity->getThirdPartySetting('panels_everywhere', 'disable_route_override')->willReturn(TRUE);
-    $pageEntity->getPath()->willReturn('/path');
-
-    $pageStorage = $this->prophesize(EntityStorageInterface::class);
-    $pageStorage->loadMultiple()->willReturn([ 42 => $pageEntity->reveal() ]);
-
-    $entityTypeManager = $this->prophesize(EntityTypeManagerInterface::class);
-    $entityTypeManager->getStorage('page')->willReturn($pageStorage->reveal());
-
-    $cacheTagsInvalidator = $this->prophesize(CacheTagsInvalidatorInterface::class);
-
-    $overrideRoute = $this->prophesize(Route::class);
-    $overrideRoute->getPath()->willReturn('/path');
-    $overrideRoute->hasDefault('page_manager_page_variant')->willReturn(TRUE);
-    $overrideRoute->getDefault('overridden_route_name')->willReturn('original.route_name');
-
-    $originalRoute = $this->prophesize(Route::class);
-    $originalRoute->getPath()->willReturn('/path');
-    $originalRoute->hasDefault('page_manager_page_variant')->willReturn(FALSE);
-    $originalRoute->setDefault('page_id', Argument::type('integer'))->willReturn($originalRoute->reveal());
-
-    $routeCollection = $this->prophesize(RouteCollection::class);
-    $routeCollection->all()->willReturn([
-      'some.route_name' => $overrideRoute->reveal(),
-      'original.route_name' => $overrideRoute->reveal()
-    ]);
-    $routeCollection->remove("some.route_name")->willReturn(NULL);
-    $routeCollection->get('original.route_name')->willReturn($originalRoute->reveal());
-
-    $event = $this->prophesize(RouteBuildEvent::class);
-    $event->getRouteCollection()->willReturn($routeCollection->reveal());
-
-    // When.
-    $subscriber = new PanelsEverywhereRouteSubscriber($entityTypeManager->reveal(), $cacheTagsInvalidator->reveal());
-    $subscriber->onAlterRoutes($event->reveal());
-
-    // Then.
-    $originalRoute->setDefault('page_id', 42)->shouldHaveBeenCalled();
-  }
-  /**
-   * Test that PanelsEverywhereRouteSubscriber sets page-id on original if the
-   * collection contains matching path outline and variant route and the route
-   * override flag is set to TRUE on page entity.
-   */
-  public function testSubscriberSetsPageIdForActiveDisableFlagAndMatchingVariantRouteAndPathOutlineInCollection() {
-    // Given.
-    $pageVariant = $this->prophesize(PageVariantInterface::class);
-
-    $pageEntity = $this->prophesize(PageInterface::class);
-    $pageEntity->id()->willReturn(42);
-    $pageEntity->status()->willReturn(TRUE);
-    $pageEntity->getVariants()->willReturn([ $pageVariant->reveal() ]);
-    $pageEntity->getThirdPartySetting('panels_everywhere', 'disable_route_override')->willReturn(TRUE);
-    $pageEntity->getPath()->willReturn('/path/%');
-
-    $pageStorage = $this->prophesize(EntityStorageInterface::class);
-    $pageStorage->loadMultiple()->willReturn([ 42 => $pageEntity->reveal() ]);
-
-    $entityTypeManager = $this->prophesize(EntityTypeManagerInterface::class);
-    $entityTypeManager->getStorage('page')->willReturn($pageStorage->reveal());
-
-    $cacheTagsInvalidator = $this->prophesize(CacheTagsInvalidatorInterface::class);
-
-    $overrideRoute = $this->prophesize(Route::class);
-    $overrideRoute->getPath()->willReturn('/path/{wildcard}');
-    $overrideRoute->hasDefault('page_manager_page_variant')->willReturn(TRUE);
-    $overrideRoute->getDefault('overridden_route_name')->willReturn('original.route_name');
-
-    $originalRoute = $this->prophesize(Route::class);
-    $originalRoute->getPath()->willReturn('/path/{wildcard}');
-    $originalRoute->hasDefault('page_manager_page_variant')->willReturn(FALSE);
-    $originalRoute->setDefault('page_id', Argument::type('integer'))->willReturn($originalRoute->reveal());
-
-    $routeCollection = $this->prophesize(RouteCollection::class);
-    $routeCollection->all()->willReturn([
-      'some.route_name' => $overrideRoute->reveal(),
-      'original.route_name' => $overrideRoute->reveal()
-    ]);
-    $routeCollection->remove("some.route_name")->willReturn(NULL);
-    $routeCollection->get('original.route_name')->willReturn($originalRoute->reveal());
-
-    $event = $this->prophesize(RouteBuildEvent::class);
-    $event->getRouteCollection()->willReturn($routeCollection->reveal());
-
-    // When.
-    $subscriber = new PanelsEverywhereRouteSubscriber($entityTypeManager->reveal(), $cacheTagsInvalidator->reveal());
-    $subscriber->onAlterRoutes($event->reveal());
-
-    // Then.
-    $originalRoute->setDefault('page_id', 42)->shouldHaveBeenCalled();
+    self::assertNull($routeCollection->get($route_name_variant));
+    self::assertEquals($page_id, $routeOtherVariant->getDefault('page_id'));
   }
 
 }

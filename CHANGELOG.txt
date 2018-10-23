@@ -19,6 +19,8 @@ By DamienMcKenna: Minor clarification that 8.2.x and older are no longer
 #2914579 by Alumei: Improve test coverage.
 #2858004 by nonAlgebraic, Alumei: Use PE display variant on any path without
   route overrides.
+#2973881 by Alumei, gaydabura, id.aleks, andypost, vprocessor, jbguerraz: Fix
+  panels everywhere to correctly use route overrides.
 
 
 Panels_Everywhere 8.x-1.0-alpha1, 2017-01-20

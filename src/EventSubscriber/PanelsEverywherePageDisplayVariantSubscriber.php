@@ -2,15 +2,14 @@
 
 namespace Drupal\panels_everywhere\EventSubscriber;
 
+use Drupal\Component\Plugin\Exception\ContextException;
 use Drupal\Core\Condition\ConditionAccessResolverTrait;
-use Drupal\Core\Display\ContextAwareVariantInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\PageDisplayVariantSelectionEvent;
-use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Render\RenderEvents;
-use Drupal\page_manager\Entity\PageVariant;
-use Drupal\page_manager\Entity\PageVariantAccess;
+use Drupal\page_manager\PageVariantInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Routing\Route;
 
 /**
  * Selects the appropriate page display variant from 'site_template'.
@@ -18,20 +17,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class PanelsEverywherePageDisplayVariantSubscriber implements EventSubscriberInterface {
 
   use ConditionAccessResolverTrait;
-
-  /**
-   * The event-derived route match.
-   *
-   * @var \Drupal\Core\Routing\RouteMatchInterface
-   */
-  protected $routeMatch;
-
-  /**
-   * The event-derived route object.
-   *
-   * @var \Symfony\Component\Routing\Route
-   */
-  protected $route;
 
   /**
    * The entity storage.
@@ -57,18 +42,14 @@ class PanelsEverywherePageDisplayVariantSubscriber implements EventSubscriberInt
    *   The event to process.
    */
   public function onSelectPageDisplayVariant(PageDisplayVariantSelectionEvent $event) {
-    $this->routeMatch = $event->getRouteMatch();
-    $this->route = $this->routeMatch->getRouteObject();
+    $route = $event->getRouteMatch()->getRouteObject();
 
-    if (
-      // If this is a Page Manager route which our RouteSubscriber
-      // did not remove, do not process it.
-      $this->route->hasDefault('page_manager_page_variant') ||
-      // if this is an admin path, do not process it
-      $this->route->getOption('_admin_route')
-    ) {
+    // if this is an admin path, do not process it
+    if ($route->getOption('_admin_route')) {
       return;
-    } elseif ($variant = $this->getVariant()) {
+    }
+
+    if ($variant = $this->getVariantPlugin($route)) {
       $event->setPluginId($variant->getPluginId());
       $event->setPluginConfiguration($variant->getConfiguration());
       $event->setContexts($variant->getContexts());
@@ -81,13 +62,13 @@ class PanelsEverywherePageDisplayVariantSubscriber implements EventSubscriberInt
    *
    * Checks access of a page variant.
    *
-   * @param string $variant
-   *   The page varian.
+   * @param \Drupal\page_manager\PageVariantInterface $variant
+   *   The page variant.
    *
    * @return bool
    *   TRUE if the route is valid, FALSE otherwise.
    */
-  protected function checkVariantAccess($variant) {
+  protected function checkVariantAccess(PageVariantInterface $variant) {
     try {
       $access = $variant && $variant->access('view');
     }
@@ -101,38 +82,70 @@ class PanelsEverywherePageDisplayVariantSubscriber implements EventSubscriberInt
   }
 
   /**
-   * get the display variant for this route, if it exists.
+   * Retrieves the display variant plugin for this route, if it exists.
    *
-   * @return \Drupal\page_manager\Entity\Page|null
-   *   A page object. NULL if no matching page is found.
+   * @param \Symfony\Component\Routing\Route $route
+   *   The route.
+   *
+   * @return null|\Drupal\panels_everywhere\Plugin\DisplayVariant\PanelsEverywhereDisplayVariant
+   *   The display variant plugin or NULL if non could be found.
    */
-  protected function getVariant() {
-    $page = NULL;
+  protected function getVariantPlugin(Route $routeObject) {
+    $pages = $this->getPagesFor($routeObject);
 
-    // pass 1 - try getting the page using the overridable getPageEntity function
-    $routeObject = $this->routeMatch->getRouteObject();
-    if ($routeObject) {
-      $pageID = $routeObject->getDefault('page_id');
-      if ($pageID) {
-        $page = $this->entityStorage->load($pageID);
-      }
+    if (empty($pages)) {
+      return NULL;
     }
 
-    // pass 2 - use the global "Site Template" page
-    if (!is_object($page)) {
-      $page = $this->entityStorage->load('site_template');
-    }
-
-    if (is_object($page) && $page->get('status')) {
-      // return the first variant which selects for this context
-      foreach ($page->getVariants() as $variant) {
+    foreach ($pages AS $page_id => $page) {
+      foreach ($page->getVariants() AS $variant_id => $variant) {
         if (!$this->checkVariantAccess($variant)) {
           continue;
         }
 
-        return $variant->getVariantPlugin();
+        $variant_plugin = $variant->getVariantPlugin();
+
+        if ($variant_plugin->getPluginId() == 'panels_everywhere_variant') {
+          return $variant_plugin;
+        }
       }
     }
+
+    return NULL;
+  }
+
+  /**
+   * Retrieves the page entity for the given route.
+   *
+   * @param \Symfony\Component\Routing\Route $routeObject
+   *   The route.
+   *
+   * @return \Drupal\Core\Entity\EntityInterface[]
+   *   The page entity referenced on the route or the 'site_template'
+   *   page entity as long as they are enabled.
+   *   Otherwise NULL will be returned.
+   */
+  protected function getPagesFor(Route $routeObject) {
+    $pages = [];
+
+    // pass 1 - try getting the page using the overridable getPageEntity function
+    if ($routeObject) {
+      $pageID = $routeObject->getDefault('page_id');
+      if ($pageID) {
+        $page = $this->entityStorage->load($pageID);
+        if ($page && $page->get('status')) {
+          $pages[$pageID] = $this->entityStorage->load($pageID);
+        }
+      }
+    }
+
+    // pass 2 - use the global "Site Template" page
+    $site_template = $this->entityStorage->load('site_template');
+    if ($site_template && $site_template->get('status')) {
+      $pages['site_template'] = $this->entityStorage->load('site_template');
+    }
+
+    return $pages;
   }
 
   /**

@@ -3,9 +3,6 @@ status: false
 dependencies:
   module:
     - panels_everywhere
-third_party_settings:
-  panels_everywhere:
-    disable_route_override: false
 id: site_template
 label: 'Site template'
 description: ''

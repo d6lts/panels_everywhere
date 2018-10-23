@@ -7,6 +7,8 @@
 
 namespace Drupal\panels_everywhere\Routing;
 
+use Drupal\Core\Display\VariantInterface;
+use Drupal\page_manager\PageVariantInterface;
 use Drupal\page_manager\Routing\PageManagerRoutes;
 use Drupal\Core\Routing\RouteSubscriberBase;
 use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
@@ -28,58 +30,106 @@ class PanelsEverywhereRouteSubscriber extends PageManagerRoutes {
    */
   protected function alterRoutes(RouteCollection $collection) {
     foreach ($this->entityStorage->loadMultiple() as $entity_id => $entity) {
-
       // If the page is disabled or if it's not set to disable route override, skip processing it.
       if (
         !$entity->status() ||
-        !$entity->getVariants() ||
-        !$entity->getThirdPartySetting('panels_everywhere', 'disable_route_override')
+        !$entity->getVariants()
       ) {
         continue;
       }
 
-      if ($route = $this->getPageRoute($entity, $collection)) {
-        $route->setDefault('page_id', $entity_id);
+      $other_variants = [];
+      $panels_everywhere_variant_present = FALSE;
+
+      foreach ($entity->getVariants() AS $variant_id => $variant) {
+        if ($variant->getVariantPluginId() != 'panels_everywhere_variant') {
+          $other_variants[$variant_id] = $variant;
+          continue;
+        }
+
+        $panels_everywhere_variant_present = TRUE;
+        $route = $this->getRouteAndCleanup($entity, $variant, $collection);
+
+        if (is_null($route)) {
+          continue;
+        }
+
+        $route->setDefault('page_id', $entity->id());
+      }
+
+      if ($panels_everywhere_variant_present) {
+        foreach ($other_variants AS $variant_id => $variant) {
+          $variant_route = $this->getRouteFor($entity, $variant, $collection);
+
+          if ($variant_route) {
+            $variant_route->setDefault('page_id', $entity->id());
+          }
+        }
       }
     }
   }
 
   /**
-   * Gets the overridden route.
+   * Retrieves relevant route and removes page-manager override if necessary.
    *
-   * @param \Drupal\page_manager\PageInterface $entity
-   *   The page entity.
-   * @param \Symfony\Component\Routing\RouteCollection $collection
-   *   The route collection.
+   * The page_manager-route for the given variant will be removed if
+   * route-override is disabled, even if this will lead to a page not found.
+   * This is intended as it allows other variants on the page to provide
+   * the main page content.
    *
-   * @return Symfony\Component\Routing\Route|null
-   *   Either the route if this is overriding an existing path, or NULL.
+   * @param PageInterface $page
+   *   A page-manager page entity.
+   * @param PageVariantInterface $variant
+   *   A variant on the page entity.
+   * @param $collection
+   *   A collection of known routeis.
+   *
+   * @return null|\Symfony\Component\Routing\Route
+   *   Will return NULL if the variant route can not be found.
+   *   Will return the variant route if route override is enabled.
+   *   Will return the original route if route override is disabled.
+   *   Will return NULL if the variant route is not overriding anything.
+   *
    */
-  protected function getPageRoute(PageInterface $entity, RouteCollection &$collection) {
-    // Get the stored page path.
-    $path = $entity->getPath();
-    $overridden_route_name = NULL;
+  protected function getRouteAndCleanup(PageInterface $page, PageVariantInterface $variant, RouteCollection $collection) {
+    $page_id = $page->id();
+    $variant_id = $variant->id();
+    $route_name = "page_manager.page_view_${page_id}_${variant_id}";
 
-    // Loop through all existing routes to see if this is overriding a route.
-    foreach ($collection->all() as $route_name => $route) {
-      // Find all paths which match the path of the current display.
-      $route_path = $route->getPath();
-      $route_path_outline = RouteCompiler::getPatternOutline($route_path);
-
-      if (
-        // Match either the path or the outline, e.g., '/foo/{foo}' or '/foo/%'.
-        ($path === $route_path || $path === $route_path_outline) &&
-        // only remove Page Manager routes, not standalone ones
-        $route->hasDefault('page_manager_page_variant')
-      ) {
-        $overridden_route_name = $route->getDefault('overridden_route_name');
-        $collection->remove($route_name);
-        break;
-      }
+    $variantRoute = $this->getRouteFor($page, $variant, $collection);
+    if (is_null($variantRoute)) {
+      return NULL;
     }
 
-    if ($overridden_route_name) {
-      return $collection->get($overridden_route_name);
+    if ($variant->getVariantPlugin()->isRouteOverrideEnabled()) {
+      return $variantRoute;
     }
+
+    $route_name_original = $variantRoute->getDefault('overridden_route_name');
+
+    $collection->remove($route_name);
+    return $collection->get($route_name_original);
   }
+
+  /**
+   * Retrieves the relevant route.
+   *
+   * @param PageInterface $page
+   *   A page-manager page entity.
+   * @param PageVariantInterface $variant
+   *   A variant on the page entity.
+   * @param $collection
+   *   A collection of known routes.
+   *
+   * @return null|\Symfony\Component\Routing\Route
+   *   The relevant route or NULL if the route could not be found.
+   */
+  protected function getRouteFor(PageInterface $page, PageVariantInterface $variant, RouteCollection $collection) {
+    $page_id = $page->id();
+    $variant_id = $variant->id();
+    $route_name = "page_manager.page_view_${page_id}_${variant_id}";
+
+    return $collection->get($route_name);
+  }
+
 }

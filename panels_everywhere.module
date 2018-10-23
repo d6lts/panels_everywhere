@@ -1,57 +1,6 @@
 <?php
 
 use Drupal\page_manager\PageVariantInterface;
-use Drupal\Core\Form\FormStateInterface;
-
-// --------------------------------------------------------------------------
-// Page Manager integration
-
-function panels_everywhere_form_page_manager_general_form_alter(&$form, FormStateInterface $form_state) {
-  $cached_values = $form_state->getTemporaryValue('wizard');
-  /** @var $page \Drupal\page_manager\Entity\Page */
-  $page = $cached_values['page'];
-
-  $new_field = array(
-    '#type' => 'details',
-    '#title' => t('Panels Everywhere additional options'),
-    '#open' => true,
-    'disable_route_override' => array(
-      '#type' => 'checkbox',
-      '#title' => t('Disable route override'),
-      '#default_value' => $page->getThirdPartySetting('panels_everywhere', 'disable_route_override')
-    )
-  );
-
-  if ($actions_position = array_search('actions', array_keys($form))) {
-    array_splice_assoc($form, $actions_position, 1, [
-      'panels_everywhere' => $new_field,
-      'actions' => $form['actions']
-    ]);
-  } else {
-    $form['panels_everywhere'] = $new_field;
-  }
-  $form['#submit'][] = 'page_manager_general_form_submit';
-  foreach ($form['actions'] as $action_name => &$action) {
-    if ($action_name != 'cancel') {
-      $pos = count($action['#submit']) - 1;
-      array_splice($action['#submit'], $pos, 1, [
-        'page_manager_general_form_submit',
-        $action['#submit'][$pos]
-      ]);
-    }
-  }
-}
-
-function page_manager_general_form_submit($form, &$form_state) {
-  $cached_values = $form_state->getTemporaryValue('wizard');
-  /** @var $page \Drupal\page_manager\Entity\Page */
-  $page = $cached_values['page'];
-
-  $page->setThirdPartySetting('panels_everywhere', 'disable_route_override',
-    $form_state->getValue('disable_route_override'));
-}
-
-
 
 /**
  * Implements hook_ENTITY_TYPE_create().

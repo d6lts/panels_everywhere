@@ -16,7 +16,7 @@
     "source": "http://git.drupal.org/project/panels_everywhere.git"
   },
   "license": "GPL-2.0+",
-  "minimum-stability": "dev",
+  "minimum-stability": "beta",
   "require": {
     "drupal/ctools": ">=3.0.0",
     "drupal/panels": ">=4.0.0",

@@ -10,59 +10,7 @@ use Drupal\Tests\BrowserTestBase;
  *
  * @group panels_everywhere
  */
-class PanelsEverywhereTest extends BrowserTestBase {
-
-  /**
-   * {@inheritdoc}
-   */
-  protected $profile = 'standard';
-
-  /**
-   * {@inheritdoc}
-   */
-  public static $modules = [
-    'panels_everywhere',
-  ];
-
-  /**
-   * The page entity storage handler.
-   *
-   * @var \Drupal\Core\Config\Entity\ConfigEntityStorageInterface
-   */
-  protected $pageStorage;
-
-  /**
-   * The page_variant entity storage handler.
-   *
-   * @var \Drupal\Core\Config\Entity\ConfigEntityStorageInterface
-   */
-  protected $pageVariantStorage;
-
-  /**
-   * The block plugin manager.
-   *
-   * @var \Drupal\Component\Plugin\PluginManagerInterface
-   */
-  protected $blockManager;
-
-  /**
-   * The condition plugin manager.
-   *
-   * @var \Drupal\Component\Plugin\PluginManagerInterface
-   */
-  protected $conditionManager;
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function setUp() {
-    parent::setUp();
-
-    $this->pageStorage = \Drupal::entityTypeManager()->getStorage('page');
-    $this->pageVariantStorage = \Drupal::entityTypeManager()->getStorage('page_variant');
-    $this->blockManager = \Drupal::service('plugin.manager.block');
-    $this->conditionManager = \Drupal::service('plugin.manager.condition');
-  }
+class PanelsEverywhereTest extends PanelsEverywhereBrowserTestBase {
 
   /**
    * Verify the front page still loads while site_template is disabled.
@@ -231,7 +179,7 @@ class PanelsEverywhereTest extends BrowserTestBase {
 
     $siteTemplate = $this->loadSiteTemplate();
     $this->drupalGet($siteTemplate->getPath());
-    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->statusCodeEquals(404);
 
     $defaultVariant = $siteTemplate->getVariant('panels_everywhere');
     $this->placeBlockOnVariant($defaultVariant, 'system_main_block', 'content');
@@ -240,7 +188,7 @@ class PanelsEverywhereTest extends BrowserTestBase {
     drupal_flush_all_caches();
 
     $this->drupalGet($siteTemplate->getPath());
-    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->statusCodeEquals(404);
   }
 
   /**
@@ -268,47 +216,6 @@ class PanelsEverywhereTest extends BrowserTestBase {
     drupal_flush_all_caches();
   }
 
-  /**
-   * Place a block on the given Variant entity.
-   *
-   * @param \Drupal\page_manager\Entity\PageVariant $variant
-   *   The variant entity.
-   * @param string $plugin_id
-   *   The plugin id of the block.
-   * @param string $region
-   *   The region to place the block into.
-   * @param array $additional_config
-   *   [optional] Additional block configuration.
-   */
-  protected function placeBlockOnVariant(PageVariant $variant, $plugin_id, $region, array $additional_config = []) {
-    $blockConfiguration = [
-      'region' => $region,
-    ] + $additional_config;
-    $variantPlugin = $variant->getVariantPlugin();
-
-    $blockInstance = $this->blockManager
-      ->createInstance($plugin_id, $blockConfiguration);
-
-    $variantPlugin->addBlock($blockInstance->getConfiguration());
-  }
-
-  /**
-   * Adds a request_path condition to the variant with the given configuration.
-   *
-   * @param \Drupal\page_manager\Entity\PageVariant $variant
-   *   The variant entity.
-   * @param string $paths
-   *   The list of paths separated by newline.
-   * @param bool $negated
-   *   Whether to negate the path selection.
-   */
-  protected function addPathCondition(PageVariant $variant, $paths, $negated = FALSE) {
-    $conditionInstance = $this->conditionManager->createInstance('request_path', [
-      'pages' => $paths,
-      'negate' => $negated,
-    ]);
-    $variant->addSelectionCondition($conditionInstance->getConfiguration());
-  }
 
   /**
    * Visits the front page and checks for a 200 status code.

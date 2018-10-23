@@ -2,6 +2,7 @@
 
 namespace Drupal\panels_everywhere\Plugin\DisplayVariant;
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\panels\Plugin\DisplayVariant\PanelsDisplayVariant;
 use Drupal\Core\Display\PageVariantInterface;
 use Drupal\Core\Block\MainContentBlockPluginInterface;
@@ -90,4 +91,38 @@ class PanelsEverywhereDisplayVariant extends PanelsDisplayVariant implements Pag
     return $build;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+    $form = parent::buildConfigurationForm($form, $form_state);
+
+    $form['route_override_enabled'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Enable page-manager route override'),
+      '#default_value' => $this->isRouteOverrideEnabled(),
+      '#description' => $this->t('The default behaviour of page-manager is create a route for the specified path and override any existing route (which effectively replaces that route). This behaviour is not desired for panels_everywhere as it prevents the original content of the route from being rendered properly. This is why panels_everywhere will remove those overrides by default. You may want do enable route overrides in cases you do not want the original route to be processed.'),
+    ];
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
+    parent::submitConfigurationForm($form, $form_state);
+
+    $this->configuration['route_override_enabled'] = $form_state->getValue('route_override_enabled');
+  }
+
+  /**
+   * Denotes whether route overrides are enabled for this variant.
+   *
+   * @return bool
+   *   True if route overrides are enabled for this variant, false otherwise.
+   */
+  public function isRouteOverrideEnabled() {
+    return !empty($this->configuration['route_override_enabled']) ? $this->configuration['route_override_enabled'] : FALSE;
+  }
 }
