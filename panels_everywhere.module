@@ -99,7 +99,7 @@ function panels_everywhere_should_override_theme() {
  * pages are output.
  */
 function panels_everywhere_theme_registry_alter(&$registry) {
-  if (!panels_everywhere_should_override_theme())
+  if (!variable_get('panels_everywhere_site_template_enabled', FALSE))
     return;
 
   // Test to see if we should exclude the administrative theme.
@@ -111,34 +111,39 @@ function panels_everywhere_theme_registry_alter(&$registry) {
     }
   }
 
-  $registry['original page'] = $registry['page'];
-  // If we've been set to override the page template, we completely override it:
-  $registry['page']['template'] = 'page';
-  $registry['page']['type'] = 'module';
-  $registry['page']['path'] = drupal_get_path('module', 'panels_everywhere') . '/theme';
-  $registry['page']['theme path'] = $registry['page']['path'];
-  $registry['page']['theme paths'] = array(
-    drupal_get_path('module', 'system'),
-    $registry['page']['path'],
-  );
-  $registry['page']['preprocess functions'] = array(
-    'panels_everywhere_page_preprocess',
-    'template_preprocess',
-    'panels_everywhere_page_preprocess_elements',
-  );
+  if (panels_everywhere_should_override_theme()) {
+    $registry['original page'] = $registry['page'];
+    // If we've been set to override the page template, we completely override it:
+    $registry['page']['template'] = 'page';
+    $registry['page']['type'] = 'module';
+    $registry['page']['path'] = drupal_get_path('module', 'panels_everywhere') . '/theme';
+    $registry['page']['theme path'] = $registry['page']['path'];
+    $registry['page']['theme paths'] = array(
+      drupal_get_path('module', 'system'),
+      $registry['page']['path'],
+    );
+    $registry['page']['preprocess functions'] = array(
+      'panels_everywhere_page_preprocess',
+      'template_preprocess',
+      'panels_everywhere_page_preprocess_elements',
+    );
 
-  // Let modules continue to do their thing
-  foreach (module_implements('preprocess') as $module) {
-    $registry['page']['preprocess functions'][] = $module . '_preprocess';
-  }
-  foreach (module_implements('preprocess_page') as $module) {
-    if ($module != 'ctools') {
-      $registry['page']['preprocess functions'][] = $module . '_preprocess_page';
+    // Let modules continue to do their thing
+    foreach (module_implements('preprocess') as $module) {
+      $registry['page']['preprocess functions'][] = $module . '_preprocess';
     }
-  }
+    foreach (module_implements('preprocess_page') as $module) {
+      if ($module != 'ctools') {
+        $registry['page']['preprocess functions'][] = $module . '_preprocess_page';
+      }
+    }
 
-  // CTools wants to be last
-  $registry['page']['preprocess functions'][] = 'ctools_preprocess_page';
+    // CTools wants to be last
+    $registry['page']['preprocess functions'][] = 'ctools_preprocess_page';
+  }
+  else {
+    array_unshift($registry['page']['preprocess functions'], 'panels_everywhere_page_preprocess');
+  }
 }
 
 /**
